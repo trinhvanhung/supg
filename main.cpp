@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 constexpr uint16_t SERVER_PORT = 1700;
 constexpr size_t GATEWAY_MAC_LEN = 8;
@@ -70,7 +71,8 @@ int main() {
     sockaddr_in server_addr{};
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(SERVER_PORT);
-    server_addr.sin_addr.s_addr = INADDR_ANY;
+    //server_addr.sin_addr.s_addr = INADDR_ANY;
+    inet_aton("116.97.245.226", &server_addr.sin_addr);
 
     // Push data
     push_data(sock_fd, server_addr);
