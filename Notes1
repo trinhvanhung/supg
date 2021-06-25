@@ -1,0 +1,1115 @@
+CREATE USER 'erp'@'%' IDENTIFIED BY 'erp123a@A';
+GRANT ALL PRIVILEGES ON *.* TO 'erp'@'%';
+CREATE USER 'erp'@'localhost' IDENTIFIED BY 'erp123a@A';
+GRANT ALL PRIVILEGES ON *.* TO 'erp'@'localhost';
+CREATE USER 'erp'@'*' IDENTIFIED BY 'erp123a@A';
+GRANT ALL PRIVILEGES ON *.* TO 'erp'@'*';
+FLUSH PRIVILEGES;
+
+123456a@A
+
+
+git clone https://github.com/htvstorage/openvpn-client
+cd openvpn-client
+docker build  -t dperson/openvpn-client:latest  .
+cd client
+echo vuser1 >> vpn.auth
+echo vpw12345 >> vpn.auth
+docker run -it --cap-add=NET_ADMIN --device /dev/net/tun --name vpn \
+            -v $PWD:/vpn -d dperson/openvpn-client
+
+docker logs vpn
+docker exec -it vpn /bin/bash
+ip route del 0.0.0.0/1 via 10.8.0.1 dev tun0
+ip route del 128.0.0.0/1 via 10.8.0.1 dev tun0
+ip route add 0.0.0.0/1 via 172.17.0.1 dev eth0
+ip route add 128.0.0.0/1 via 172.17.0.1 dev eth0
+ip route list
+
+
+git clone https://github.com/htvstorage/alpine-squid
+cd alpine-squid
+make build
+make
+
+
+export JAVA_HOME=/home/vht/jdk-11.0.11
+export PATH=$JAVA_HOME/bin:$PATH
+
+
+
+java -Dlog4j.configuration=log.txt --illegal-access=warn -cp ignite-core-2.11.0-SNAPSHOT.jar:ignite-core-2.11.0-SNAPSHOT-tests.jar:libs/* -Djava.library.path=/usr/local/lib/ org.apache.ignite.internal.util.ipc.shmem.benchmark.IpcSharedMemoryBenchmarkWriter
+
+
+
+cd /usr/local/app; java -Xmx2G -Xms2G -DDST_BUFFER_SIZE=52428800 -DSRC_BUFFER_SIZE=52428800 -Dlog4j.configuration=log.txt --illegal-access=warn -cp ignite-core-2.11.0-SNAPSHOT.jar:ignite-core-2.11.0-SNAPSHOT-tests.jar:libs/* -Djava.library.path=/usr/local/lib/ org.apache.ignite.internal.util.ipc.shmem.benchmark.IpcSharedMemoryBenchmarkReader 6
+
+cd /usr/local/app; java -Dipchost=172.21.5.186 -Xmx2G -Xms2G -DDST_BUFFER_SIZE=52428800 -DSRC_BUFFER_SIZE=52428800 -Dlog4j.configuration=log.txt --illegal-access=warn -cp ignite-core-2.11.0-SNAPSHOT.jar:ignite-core-2.11.0-SNAPSHOT-tests.jar:libs/* -Djava.library.path=/usr/local/lib/ org.apache.ignite.internal.util.ipc.shmem.benchmark.IpcSharedMemoryBenchmarkWriter 6
+
+
+cd /usr/local/app;  java -Xmx2G -Xms2G -DDST_BUFFER_SIZE=5242880 -DSRC_BUFFER_SIZE=5242880 -Dlog4j.configuration=log.txt --illegal-access=warn -cp ignite-core-2.11.0-SNAPSHOT.jar:ignite-core-2.11.0-SNAPSHOT-tests.jar:libs/* -Djava.library.path=/usr/local/lib/ org.apache.ignite.internal.util.ipc.shmem.benchmark.IpcSharedMemoryBenchmarkWriter 3
+
+ docker run -it -p 10500:10500 --pid=host --ipc shareable --name shmreader -d shm:latest
+
+
+docker run -it --net=container:shmreader --pid=host --ipc=container:shmreader --name writer -d shm:latest
+
+
+docker run -it  --pid=host --ipc=container:shmreader --name writer -d shm:latest
+
+
+docker run -it --net=container:shmreader --ipc=container:shmreader --name writer2 -d shm:latest
+
+
+
+
+
+For the test setup, let's make sure our iptables don't affect the performance:
+
+iptables -I PREROUTING -t mangle -d 198.18.0.12 -p udp --dport 1234 -j ACCEPT
+iptables -I PREROUTING -t raw -d 198.18.0.12 -p udp --dport 1234 -j ACCEPT
+iptables -I INPUT -t filter -d 198.18.0.12 -p udp --dport 1234 -j ACCEPT
+
+
+
+
+    docker cp ignite-core-2.11.0-SNAPSHOT-tests.jar writer:/usr/local/app
+    docker cp ignite-core-2.11.0-SNAPSHOT.jar writer:/usr/local/app
+    docker cp ignite-core-2.11.0-SNAPSHOT.jar shmreader:/usr/local/app
+    docker cp ignite-core-2.11.0-SNAPSHOT-tests.jar shmreader:/usr/local/app
+
+
+
+
+
+
+docker run --rm -it --net=container:vpn \
+  --name docker_squid \
+  -c 256 -m 256m \
+  -e PGID=1000 -e PUID=1000 \
+  -v $PWD/data/config:/etc/squid \
+  -v $PWD/data/cache:/var/cache/squid \
+  -v /etc/hosts:/etc/hosts:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  woahbase/alpine-squid:x86_64
+
+
+
+
+  mosquitto_pub -h 116.97.245.226 -p 1700  -t gateway/111 -m "ajava"
+
+#############################################
+#No Build images
+
+git clone https://github.com/htvstorage/openvpn-client
+cd openvpn-client/client
+docker load < squid.tar.gz 
+ docker load < vpn.tar.gz
+docker run -it --cap-add=NET_ADMIN --device /dev/net/tun --name vpn \
+            -v $PWD:/vpn -d dperson/openvpn-client
+
+docker logs vpn
+docker exec -it vpn /bin/bash
+ip route del 0.0.0.0/1 via 10.8.0.1 dev tun0
+ip route del 128.0.0.0/1 via 10.8.0.1 dev tun0
+ip route add 0.0.0.0/1 via 172.17.0.1 dev eth0
+ip route add 128.0.0.0/1 via 172.17.0.1 dev eth0
+ip route list
+exit
+
+cd ..
+
+docker run --rm -it --net=container:vpn \
+  --name docker_squid \
+  -c 256 -m 256m \
+  -e PGID=1000 -e PUID=1000 \
+  -v $PWD/data/config:/etc/squid \
+  -v $PWD/data/cache:/var/cache/squid \
+  -v /etc/hosts:/etc/hosts:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  woahbase/alpine-squid:x86_64
+
+
+
+cd ..
+
+docker run --rm -it \
+  --name docker_squid \
+  -c 256 -m 256m \
+  -p 3128:3128 \
+  -e PGID=1000 -e PUID=1000 \
+  -v $PWD/data/config:/etc/squid \
+  -v $PWD/data/cache:/var/cache/squid \
+  -v /etc/hosts:/etc/hosts:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  woahbase/alpine-squid:x86_64
+
+https://cdn.mysql.com//Downloads/MySQL-8.0/mysql-8.0.25-1.el7.x86_64.rpm-bundle.tar
+
+openvpn --cd /home/vht/openvpn-client/client --lport 1994  --client --config /home/vht/openvpn-client/client/client.ovpn --auth-user-pass vpn.auth
+
+
+nohup openvpn --cd /home/trinhvanhung/openvpn-client/client --lport 1994  --client --config /home/trinhvanhung/openvpn-client/client/client.ovpn --auth-user-pass vpn.auth > openvpn.logs 2>&1 </dev/null &
+ip route del 0.0.0.0/1 via 10.8.0.1 dev tun0
+ip route del 128.0.0.0/1 via 10.8.0.1 dev tun0
+ip route add 0.0.0.0/1 via 10.128.0.1 dev eth0
+ip route add 128.0.0.0/1 via 10.128.0.1 dev eth0
+
+default via 10.128.0.1 dev eth0 proto dhcp metric 100 
+10.128.0.1 dev eth0 proto dhcp scope link metric 100 
+10.128.0.6 dev eth0 proto kernel scope link src 10.128.0.6 metric 100
+
+
+export http_proxy=http://10.8.0.2:3128
+export https_proxy=http://10.8.0.2:3128
+export no_proxy=localhost,172.20.1.22
+
+
+export http_proxy=http://10.8.0.3:3128
+export https_proxy=http://10.8.0.3:3128
+
+
+
+https://www.katacoda.com/courses/docker/persisting-data-using-volumes
+
+
+	iptables -P INPUT DROP
+    iptables -P FORWARD DROP
+    iptables -P OUTPUT DROP
+    iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A INPUT -s eth0 -j ACCEPT
+    iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    iptables -A FORWARD -i lo -j ACCEPT
+    iptables -A FORWARD -d ${docker_network} -j ACCEPT
+    iptables -A FORWARD -s ${docker_network} -j ACCEPT
+    iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    iptables -A OUTPUT -o lo -j ACCEPT
+    iptables -A OUTPUT -o tap+ -j ACCEPT
+    iptables -A OUTPUT -o tun+ -j ACCEPT
+    iptables -A OUTPUT -d ${docker_network} -j ACCEPT
+
+
+echo vuser1 >> vpn.auth
+echo vpw12345 >> vpn.auth
+
+docker build  -t dperson/openvpn-client:latest  .
+
+sudo docker run -it --cap-add=NET_ADMIN --device /dev/net/tun --name vpn \
+            -v $PWD:/vpn -d dperson/openvpn-client \
+            -v '172.21.5.186;vuser1;vpw12345'
+sudo docker restart vpn
+
+
+ openvpn --cd /home/vht/client/client2/ --lport 1994  --client --config /home/vht/client/client2/client.ovpn
+
+  openvpn --cd /vpn/ --lport 1994  --client --config /vpn/client.ovpn --auth-user-pass vpn.auth
+
+
+ip route add  default via 172.18.0.1 dev eth0 
+ip route add 116.97.245.226 via 172.18.0.1 dev eth0
+git clone https://github.com/htvstorage/alpine-squid
+cd alpine-squid
+docker run --rm -it --net=container:vpn \
+  --name docker_squid \
+  -c 256 -m 256m \
+  -e PGID=1000 -e PUID=1000 \
+  -v $PWD/data/config:/etc/squid \
+  -v $PWD/data/cache:/var/cache/squid \
+  -v /etc/hosts:/etc/hosts:ro \
+  -v /etc/localtime:/etc/localtime:ro \
+  woahbase/alpine-squid:x86_64
+
+
+docker run -it  --network alpine-net joffotron/docker-net-tools
+
+
+
+sudo docker run -it --cap-add=NET_ADMIN --device /dev/net/tun --name vpn \
+            -v $PWD:/vpn -d one:1 
+
+
+docker run -it --cap-add=NET_ADMIN --device /dev/net/tun --name vpn \
+            -v $PWD:/vpn  dperson/openvpn-client
+
+
+
+
+
+
+java -Djava.library.path=/workspace/hadoop-3.2.2/lib/native/ -cp hadoop-hdfs-client-3.4.0-SNAPSHOT.jar:hadoop-hdfs-client-3.4.0-SNAPSHOT-tests.jar:lib/* org.junit.runner.JUnitCore org.apache.hadoop.hdfs.shortcircuit.TestShortCircuitShm
+
+
+
+
+
+
+java -Djava.library.path=/workspace/hadoop-3.2.2/lib/native/ -cp hadoop-hdfs-3.4.0-SNAPSHOT.jar:hadoop-hdfs-3.4.0-SNAPSHOT-tests.jar:lib/* org.junit.runner.JUnitCore org.apache.hadoop.hdfs.shortcircuit.TestShortCircuitLocalRead 
+
+
+
+
+--add-exports java.base/jdk.internal.ref=ALL-UNNAMED,shm --add-exports java.base/jdk.internal.access=ALL-UNNAMED,shm
+
+
+
+
+
+
+
+
+
+
+<plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.0</version>               
+            <executions>
+                <execution>
+                    <id>default-compile</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>default-testCompile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                </execution>
+            </executions>            
+
+            <configuration>
+                <compilerArgs>
+                    <arg>--add-exports</arg>
+                    <arg>java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+                    <arg>--add-exports</arg>
+                    <arg>java.base/sun.nio.ch=ALL-UNNAMED</arg>
+                    <arg>--add-exports</arg>
+                    <arg>java.base/jdk.internal=ALL-UNNAMED</arg>
+                    <arg>--add-exports</arg>
+                    <arg>java.base/jdk.internal.vm.annotation=ALL-UNNAMED</arg>                        
+
+
+                </compilerArgs>
+
+                <argLine>
+                    --add-exports=java.base/jdk.internal.misc=ALL-UNNAMED
+                    --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
+                    --add-exports=java.management/com.sun.jmx.mbeanserver=ALL-UNNAMED
+                    --add-exports=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED
+                    --add-exports=java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED
+                    --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
+                    --illegal-access=permit
+                </argLine>
+            </configuration>                 
+        </plugin>            
+
+
+
+
+
+/home/vht/jdk-11.0.11/bin/java  -Djvm.resource.tracing=false --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/* net.openhft.performance.tests.vanilla.tcp.EchoServer2Main
+
+
+
+
+/home/vht/jdk-11.0.11/bin/java  --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED  -Xmx640m -verbose:gc -Djvm.resource.tracing=false -Dthroughput=5000000 -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/* net.openhft.performance.tests.vanilla.tcp.EchoClientMain
+
+
+/home/vht/jdk-11.0.11/bin/java    -XX:+UnlockCommercialFeatures -XX:+FlightRecorder    -Djvm.resource.tracing=false --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/* net.openhft.performance.tests.vanilla.tcp.EchoServerMain
+
+/home/vht/jdk-11.0.11/bin/java -Dcpu=0 -DcountStat=1000000 -Dclients=1 -Dport=$PORT   -Dfast=false -XX:+UnlockCommercialFeatures -XX:+FlightRecorder   -Dwindow=1 -Dmode=2 -Dbbsize=4096   --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED  -Xmx640m -verbose:gc -Djvm.resource.tracing=false -Dthroughput=5000000 -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/*   net.openhft.performance.tests.vanilla.tcp.EchoClientMain3 172.21.5.186
+
+
+/home/vht/jdk-11.0.11/bin/java -DMaxTest=5000000 -Dtps=100000,40000,30000,20000  -Dcpu=4 -DcountStat=1000000 -Dclients=1 -Dport=$PORT   -Dfast=true  -Dwindow=1 -Dmode=2 -Dbbsize=4096 --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED  -Xmx2048m -verbose:gc -Djvm.resource.tracing=false -Dthroughput=5000000 -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/*  -DsetBuffer=false  net.openhft.performance.tests.vanilla.tcp.NIOClientNoSelectionKeyWhileUtilSocketNotAvaiable 172.21.5.186
+
+
+/home/vht/jdk-11.0.11/bin/java -Xmx2G -Xms2G  -Dcpu=6   -XX:+UnlockCommercialFeatures -XX:+FlightRecorder    -Djvm.resource.tracing=false --illegal-access=permit --add-exports java.base/jdk.internal.ref=ALL-UNNAMED  --add-exports java.base/sun.nio.ch=ALL-UNNAMED -cp chronicle-network-2.21ea67-SNAPSHOT.jar:chronicle-network-2.21ea67-SNAPSHOT-tests.jar:lib/* -DsendBufferSize=8192000 -DreceiveBufferSize=8192000 -DsetBuffer=false net.openhft.performance.tests.vanilla.tcp.EchoServerMain
+
+
+Copy LOG
+
+
+Starting...
+Prepare information for data copy...
+Prepare information for data copy done
+Determine number of rows to copy....
+Counting number of rows in tables...
+/usr/libexec/mysql-workbench/wbcopytables-bin --count-only --passwords-from-stdin --odbc-source="DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1" --force-utf8-for-source --table [TESTDB1] [dbo].[TDAItemRev] --table [TESTDB1] [dbo].[TMT] --table [TESTDB1] [dbo].[TMTHistory] --table [TESTDB1] [dbo].[TPPDelvPrintDetail_DELHIS] --table [TESTDB1] [dbo].[TPPOQC] --table [TESTDB1] [dbo].[TPDOQCReq] --table [TESTDB1] [dbo].[TMIDelvPrint] --table [TESTDB1] [dbo].[TPPDelvWH] --table [TESTDB1] [dbo].[TCTModule] --table [TESTDB1] [dbo].[TDADept] --table [TESTDB1] [dbo].[TPPOutboxLabel] --table [TESTDB1] [dbo].[TPPInboxLabel_DELHIS] --table [TESTDB1] [dbo].[TDOQCDetail] --table [TESTDB1] [dbo].[TPPDelvCheckKey] --table [TESTDB1] [dbo].[TPPOutboxDelvRe] --table [TESTDB1] [dbo].[TDAOrg] --table [TESTDB1] [dbo].[TDAWH] --table [TESTDB1] [dbo].[TCTDictionary] --table [TESTDB1] [dbo].[TCTProcess] --table [TESTDB1] [dbo].[TPDOQCSerial] --table [TESTDB1] [dbo].[TPDRepairReq] --table [TESTDB1] [dbo].[TPDAuto_FT1_Out] --table [TESTDB1] [dbo].[TPPOQCDefect] --table [TESTDB1] [dbo].[TDAEmpMaster] --table [TESTDB1] [dbo].[TPPOutboxDetail] --table [TESTDB1] [dbo].[TPDHold] --table [TESTDB1] [dbo].[TPDAuto_FT2_Out] --table [TESTDB1] [dbo].[TDOQCDefect] --table [TESTDB1] [dbo].[TDAErrorMsg] --table [TESTDB1] [dbo].[TPDScrapCfr] --table [TESTDB1] [dbo].[TPDLabelSerial] --table [TESTDB1] [dbo].[TPDRepair] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES] --table [TESTDB1] [dbo].[TPPMatchCheck] --table [TESTDB1] [dbo].[TDAMold] --table [TESTDB1] [dbo].[TICT] --table [TESTDB1] [dbo].[TPPWorkreportWIP] --table [TESTDB1] [dbo].[TPPWorkReportWIP_DelLog] --table [TESTDB1] [dbo].[TDAUnit] --table [TESTDB1] [dbo].[TUGDelv] --table [TESTDB1] [dbo].[TPEQCDefect_DELHIS] --table [TESTDB1] [dbo].[TMIDelv] --table [TESTDB1] [dbo].[TPPOutboxDelv] --table [TESTDB1] [dbo].[TPPOutboxLabelRe] --table [TESTDB1] [dbo].[Student] --table [TESTDB1] [dbo].[TDAMinor] --table [TESTDB1] [dbo].[TPDScrap] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_TEST] --table [TESTDB1] [dbo].[TFTHistory] --table [TESTDB1] [dbo].[TDAMoldModel] --table [TESTDB1] [dbo].[TPPOutboxDetail_DELHIS] --table [TESTDB1] [dbo].[TPPInboxRepackHis] --table [TESTDB1] [dbo].[TPDAuto_HIPOT_Out] --table [TESTDB1] [dbo].[TRWOutboxDetailHis] --table [TESTDB1] [dbo].[TRWConfirm] --table [TESTDB1] [dbo].[TDASpNM] --table [TESTDB1] [dbo].[TPPDelvPrint] --table [TESTDB1] [dbo].[TPPSPMStdReg] --table [TESTDB1] [dbo].[TPPInboxLabel] --table [TESTDB1] [dbo].[TPPOutboxDetailRe] --table [TESTDB1] [dbo].[TDADevice] --table [TESTDB1] [dbo].[TPPVILabel] --table [TESTDB1] [dbo].[TPDHisory_ICT] --table [TESTDB1] [dbo].[TDAItem] --table [TESTDB1] [dbo].[TPPInboxLabelRe] --table [TESTDB1] [dbo].[TRWOutboxDelv] --table [TESTDB1] [dbo].[TDATableD] --table [TESTDB1] [dbo].[TPPInboxDst] --table [TESTDB1] [dbo].[TPEQC_DELHIS] --table [TESTDB1] [dbo].[TCTLanguage] --table [TESTDB1] [dbo].[TPPOutboxRepackHis] --table [TESTDB1] [dbo].[TPPWOCheckInOut] --table [TESTDB1] [dbo].[TDATableM] --table [TESTDB1] [dbo].[TMIDelvPrint_DELHIS] --table [TESTDB1] [dbo].[TPPWorkOrder] --table [TESTDB1] [dbo].[TDATableRefer] --table [TESTDB1] [dbo].[TPPOutboxRepackHisDetail] --table [TESTDB1] [dbo].[TDOQC] --table [TESTDB1] [dbo].[TDASpNMD] --table [TESTDB1] [dbo].[TCTGetERPDataLogs] --table [TESTDB1] [dbo].[TPPWorkOrderNG] --table [TESTDB1] [dbo].[TDIQCDetail] --table [TESTDB1] [dbo].[TRWInputOutbox] --table [TESTDB1] [dbo].[TPDAuto_FT1_In] --table [TESTDB1] [dbo].[TPPLaserStdReg] --table [TESTDB1] [dbo].[TPPSMDStdReg] --table [TESTDB1] [dbo].[TDAYMDMap] --table [TESTDB1] [dbo].[TCTMenu] --table [TESTDB1] [dbo].[TPPInboxRepackSep] --table [TESTDB1] [dbo].[TCTPgm] --table [TESTDB1] [dbo].[THNTLabelDetail] --table [TESTDB1] [dbo].[TPDResult_ICT] --table [TESTDB1] [dbo].[TPEQC] --table [TESTDB1] [dbo].[TPDItemProc] --table [TESTDB1] [dbo].[TPDBOM] --table [TESTDB1] [dbo].[TUGIQCDefect] --table [TESTDB1] [dbo].[TPPWorkreportWIPDefect] --table [TESTDB1] [dbo].[TPPCOATStdReg] --table [TESTDB1] [dbo].[TPPInspectionL] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_DUP] --table [TESTDB1] [dbo].[TPDAuto_MT_In] --table [TESTDB1] [dbo].[TUGIQC] --table [TESTDB1] [dbo].[TPDSerialResult] --table [TESTDB1] [dbo].[TDAWCDevice] --table [TESTDB1] [dbo].[WCRegM] --table [TESTDB1] [dbo].[THNTProductYMD] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_LOG] --table [TESTDB1] [dbo].[TRWInboxHisMap] --table [TESTDB1] [dbo].[TPPOutboxLabel_DELHIS] --table [TESTDB1] [dbo].[THIPOT] --table [TESTDB1] [dbo].[TUGIQCDetail] --table [TESTDB1] [dbo].[TPDHistory_MT] --table [TESTDB1] [dbo].[TCTUser] --table [TESTDB1] [dbo].[TPDResult_MT] --table [TESTDB1] [dbo].[TUGDelvPrint] --table [TESTDB1] [dbo].[TPDResult_HIPOT] --table [TESTDB1] [dbo].[TFT] --table [TESTDB1] [dbo].[TRWInputInbox] --table [TESTDB1] [dbo].[TDASpRefer] --table [TESTDB1] [dbo].[TPPDelvPrintRe] --table [TESTDB1] [dbo].[TPPWorkreportWIP_DELHIS] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_DELHIS] --table [TESTDB1] [dbo].[TRWOutboxHis] --table [TESTDB1] [dbo].[TPPInspectionM] --table [TESTDB1] [dbo].[TPPOQCDetail] --table [TESTDB1] [dbo].[THNTLabel] --table [TESTDB1] [dbo].[TPPMatchCheckRe] --table [TESTDB1] [dbo].[TPDPackingD] --table [TESTDB1] [dbo].[TPDAuto_MT_Out] --table [TESTDB1] [dbo].[TUGPOItem] --table [TESTDB1] [dbo].[TPEGoodIn] --table [TESTDB1] [dbo].[TCTOrgPgm] --table [TESTDB1] [dbo].[TDAMoldRev] --table [TESTDB1] [dbo].[TPEQCDefect] --table [TESTDB1] [dbo].[TDAMajor] --table [TESTDB1] [dbo].[TDACust] --table [TESTDB1] [dbo].[TUGDelvPrint_DELHIS] --table [TESTDB1] [dbo].[TPPVILabelRe] --table [TESTDB1] [dbo].[TDAItemScale] --table [TESTDB1] [dbo].[TPPDelvPrintDetail] --table [TESTDB1] [dbo].[TCTPgmSecu] --table [TESTDB1] [dbo].[TPDPackingM] --table [TESTDB1] [dbo].[TPPDelvPrint_DELHIS] --table [TESTDB1] [dbo].[TDIQC] --table [TESTDB1] [dbo].[TDAMajorTitle] --table [TESTDB1] [dbo].[TPPDelvPrintReDetail] --table [TESTDB1] [dbo].[TPDAuto_FT2_In] --table [TESTDB1] [dbo].[TUGDelvPrintDetail] --table [TESTDB1] [dbo].[TMIDelvPrintDetail] --table [TESTDB1] [dbo].[TLBLabelConvert] --table [TESTDB1] [dbo].[TRWInboxHis] --table [TESTDB1] [dbo].[THIPOTHistory] --table [TESTDB1] [dbo].[TScrap] --table [TESTDB1] [dbo].[TPPProcessLabel] --table [TESTDB1] [dbo].[TSADelv] --table [TESTDB1] [dbo].[TDIQCDefect] --table [TESTDB1] [dbo].[TPPInboxMst] --table [TESTDB1] [dbo].[TMIPOItem] --table [TESTDB1] [dbo].[TPPDelvCheckKey_DHN] --table [TESTDB1] [dbo].[TCTVendorPassword] --table [TESTDB1] [dbo].[TDALotHold] --table [TESTDB1] [dbo].[TDAWC] --table [TESTDB1] [dbo].[TCTMenuSecu] --table [TESTDB1] [dbo].[TUGDelvPrintDetail_DELHIS] --table [TESTDB1] [dbo].[TPPInboxRepackTemp] --table [TESTDB1] [dbo].[TPPInspectionS] --table [TESTDB1] [dbo].[TPDAuto_HIPOT_In] --table [TESTDB1] [dbo].[TDAInventory] --table [TESTDB1] [dbo].[TMIDelvPrintDetail_DELHIS] --table [TESTDB1] [dbo].[TICTHistory] --table [TESTDB1] [dbo].[TPPProcessLabel_DELHIS] --table [TESTDB1] [dbo].[TPDHistory_HIPOT] --table [TESTDB1] [dbo].[TPPDelvWH_log] --table [TESTDB1] [dbo].[WCRegD] --table [TESTDB1] [dbo].[TDANumChar] --table [TESTDB1] [dbo].[TPPWorkreportWIPDefect_DELHIS] --table [TESTDB1] [dbo].[THNTCustItem]
+Opening ODBC connection to [unknown] 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=XXX'
+00:12:59 [INF][      copytable]: ODBC connection to 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=' opened
+
+519074 total rows in 177 tables need to be copied:
+- [TESTDB1].[dbo].[TDAItemRev]: 6
+- [TESTDB1].[dbo].[TMT]: 3
+- [TESTDB1].[dbo].[TMTHistory]: 6
+- [TESTDB1].[dbo].[TPPDelvPrintDetail_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPOQC]: 0
+- [TESTDB1].[dbo].[TPDOQCReq]: 1
+- [TESTDB1].[dbo].[TMIDelvPrint]: 0
+- [TESTDB1].[dbo].[TPPDelvWH]: 0
+- [TESTDB1].[dbo].[TCTModule]: 1
+- [TESTDB1].[dbo].[TDADept]: 1
+- [TESTDB1].[dbo].[TPPOutboxLabel]: 0
+- [TESTDB1].[dbo].[TPPInboxLabel_DELHIS]: 0
+- [TESTDB1].[dbo].[TDOQCDetail]: 0
+- [TESTDB1].[dbo].[TPPDelvCheckKey]: 0
+- [TESTDB1].[dbo].[TPPOutboxDelvRe]: 0
+- [TESTDB1].[dbo].[TDAOrg]: 1
+- [TESTDB1].[dbo].[TDAWH]: 0
+- [TESTDB1].[dbo].[TCTDictionary]: 0
+- [TESTDB1].[dbo].[TCTProcess]: 3
+- [TESTDB1].[dbo].[TPDOQCSerial]: 2
+- [TESTDB1].[dbo].[TPDRepairReq]: 0
+- [TESTDB1].[dbo].[TPDAuto_FT1_Out]: 81628
+- [TESTDB1].[dbo].[TPPOQCDefect]: 0
+- [TESTDB1].[dbo].[TDAEmpMaster]: 1
+- [TESTDB1].[dbo].[TPPOutboxDetail]: 0
+- [TESTDB1].[dbo].[TPDHold]: 1
+- [TESTDB1].[dbo].[TPDAuto_FT2_Out]: 44272
+- [TESTDB1].[dbo].[TDOQCDefect]: 0
+- [TESTDB1].[dbo].[TDAErrorMsg]: 38
+- [TESTDB1].[dbo].[TPDScrapCfr]: 0
+- [TESTDB1].[dbo].[TPDLabelSerial]: 55
+- [TESTDB1].[dbo].[TPDRepair]: 1
+- [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES]: 0
+- [TESTDB1].[dbo].[TPPMatchCheck]: 0
+- [TESTDB1].[dbo].[TDAMold]: 0
+- [TESTDB1].[dbo].[TICT]: 66
+- [TESTDB1].[dbo].[TPPWorkreportWIP]: 0
+- [TESTDB1].[dbo].[TPPWorkReportWIP_DelLog]: 0
+- [TESTDB1].[dbo].[TDAUnit]: 0
+- [TESTDB1].[dbo].[TUGDelv]: 0
+- [TESTDB1].[dbo].[TPEQCDefect_DELHIS]: 0
+- [TESTDB1].[dbo].[TMIDelv]: 0
+- [TESTDB1].[dbo].[TPPOutboxDelv]: 0
+- [TESTDB1].[dbo].[TPPOutboxLabelRe]: 0
+- [TESTDB1].[dbo].[Student]: 2
+- [TESTDB1].[dbo].[TDAMinor]: 740
+- [TESTDB1].[dbo].[TPDScrap]: 0
+- [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_TEST]: 0
+- [TESTDB1].[dbo].[TFTHistory]: 119
+- [TESTDB1].[dbo].[TDAMoldModel]: 0
+- [TESTDB1].[dbo].[TPPOutboxDetail_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPInboxRepackHis]: 0
+- [TESTDB1].[dbo].[TPDAuto_HIPOT_Out]: 239788
+- [TESTDB1].[dbo].[TRWOutboxDetailHis]: 0
+- [TESTDB1].[dbo].[TRWConfirm]: 0
+- [TESTDB1].[dbo].[TDASpNM]: 0
+- [TESTDB1].[dbo].[TPPDelvPrint]: 0
+- [TESTDB1].[dbo].[TPPSPMStdReg]: 0
+- [TESTDB1].[dbo].[TPPInboxLabel]: 0
+- [TESTDB1].[dbo].[TPPOutboxDetailRe]: 0
+- [TESTDB1].[dbo].[TDADevice]: 15
+- [TESTDB1].[dbo].[TPPVILabel]: 0
+- [TESTDB1].[dbo].[TPDHisory_ICT]: 0
+- [TESTDB1].[dbo].[TDAItem]: 8
+- [TESTDB1].[dbo].[TPPInboxLabelRe]: 0
+- [TESTDB1].[dbo].[TRWOutboxDelv]: 0
+- [TESTDB1].[dbo].[TDATableD]: 0
+- [TESTDB1].[dbo].[TPPInboxDst]: 0
+- [TESTDB1].[dbo].[TPEQC_DELHIS]: 0
+- [TESTDB1].[dbo].[TCTLanguage]: 3
+- [TESTDB1].[dbo].[TPPOutboxRepackHis]: 0
+- [TESTDB1].[dbo].[TPPWOCheckInOut]: 0
+- [TESTDB1].[dbo].[TDATableM]: 0
+- [TESTDB1].[dbo].[TMIDelvPrint_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPWorkOrder]: 0
+- [TESTDB1].[dbo].[TDATableRefer]: 0
+- [TESTDB1].[dbo].[TPPOutboxRepackHisDetail]: 0
+- [TESTDB1].[dbo].[TDOQC]: 0
+- [TESTDB1].[dbo].[TDASpNMD]: 0
+- [TESTDB1].[dbo].[TCTGetERPDataLogs]: 0
+- [TESTDB1].[dbo].[TPPWorkOrderNG]: 0
+- [TESTDB1].[dbo].[TDIQCDetail]: 0
+- [TESTDB1].[dbo].[TRWInputOutbox]: 0
+- [TESTDB1].[dbo].[TPDAuto_FT1_In]: 105
+- [TESTDB1].[dbo].[TPPLaserStdReg]: 0
+- [TESTDB1].[dbo].[TPPSMDStdReg]: 0
+- [TESTDB1].[dbo].[TDAYMDMap]: 55
+- [TESTDB1].[dbo].[TCTMenu]: 148
+- [TESTDB1].[dbo].[TPPInboxRepackSep]: 0
+- [TESTDB1].[dbo].[TCTPgm]: 148
+- [TESTDB1].[dbo].[THNTLabelDetail]: 0
+- [TESTDB1].[dbo].[TPDResult_ICT]: 0
+- [TESTDB1].[dbo].[TPEQC]: 0
+- [TESTDB1].[dbo].[TPDItemProc]: 0
+- [TESTDB1].[dbo].[TPDBOM]: 0
+- [TESTDB1].[dbo].[TUGIQCDefect]: 0
+- [TESTDB1].[dbo].[TPPWorkreportWIPDefect]: 0
+- [TESTDB1].[dbo].[TPPCOATStdReg]: 0
+- [TESTDB1].[dbo].[TPPInspectionL]: 16
+- [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_DUP]: 0
+- [TESTDB1].[dbo].[TPDAuto_MT_In]: 79
+- [TESTDB1].[dbo].[TUGIQC]: 0
+- [TESTDB1].[dbo].[TPDSerialResult]: 13
+- [TESTDB1].[dbo].[TDAWCDevice]: 0
+- [TESTDB1].[dbo].[WCRegM]: 0
+- [TESTDB1].[dbo].[THNTProductYMD]: 0
+- [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_LOG]: 0
+- [TESTDB1].[dbo].[TRWInboxHisMap]: 0
+- [TESTDB1].[dbo].[TPPOutboxLabel_DELHIS]: 0
+- [TESTDB1].[dbo].[THIPOT]: 28
+- [TESTDB1].[dbo].[TUGIQCDetail]: 0
+- [TESTDB1].[dbo].[TPDHistory_MT]: 6
+- [TESTDB1].[dbo].[TCTUser]: 2
+- [TESTDB1].[dbo].[TPDResult_MT]: 3
+- [TESTDB1].[dbo].[TUGDelvPrint]: 0
+- [TESTDB1].[dbo].[TPDResult_HIPOT]: 0
+- [TESTDB1].[dbo].[TFT]: 28
+- [TESTDB1].[dbo].[TRWInputInbox]: 0
+- [TESTDB1].[dbo].[TDASpRefer]: 0
+- [TESTDB1].[dbo].[TPPDelvPrintRe]: 0
+- [TESTDB1].[dbo].[TPPWorkreportWIP_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_DELHIS]: 0
+- [TESTDB1].[dbo].[TRWOutboxHis]: 0
+- [TESTDB1].[dbo].[TPPInspectionM]: 39
+- [TESTDB1].[dbo].[TPPOQCDetail]: 0
+- [TESTDB1].[dbo].[THNTLabel]: 0
+- [TESTDB1].[dbo].[TPPMatchCheckRe]: 0
+- [TESTDB1].[dbo].[TPDPackingD]: 2
+- [TESTDB1].[dbo].[TPDAuto_MT_Out]: 147632
+- [TESTDB1].[dbo].[TUGPOItem]: 0
+- [TESTDB1].[dbo].[TPEGoodIn]: 0
+- [TESTDB1].[dbo].[TCTOrgPgm]: 1481
+- [TESTDB1].[dbo].[TDAMoldRev]: 0
+- [TESTDB1].[dbo].[TPEQCDefect]: 0
+- [TESTDB1].[dbo].[TDAMajor]: 71
+- [TESTDB1].[dbo].[TDACust]: 0
+- [TESTDB1].[dbo].[TUGDelvPrint_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPVILabelRe]: 0
+- [TESTDB1].[dbo].[TDAItemScale]: 0
+- [TESTDB1].[dbo].[TPPDelvPrintDetail]: 0
+- [TESTDB1].[dbo].[TCTPgmSecu]: 46
+- [TESTDB1].[dbo].[TPDPackingM]: 1
+- [TESTDB1].[dbo].[TPPDelvPrint_DELHIS]: 0
+- [TESTDB1].[dbo].[TDIQC]: 0
+- [TESTDB1].[dbo].[TDAMajorTitle]: 0
+- [TESTDB1].[dbo].[TPPDelvPrintReDetail]: 0
+- [TESTDB1].[dbo].[TPDAuto_FT2_In]: 101
+- [TESTDB1].[dbo].[TUGDelvPrintDetail]: 0
+- [TESTDB1].[dbo].[TMIDelvPrintDetail]: 0
+- [TESTDB1].[dbo].[TLBLabelConvert]: 0
+- [TESTDB1].[dbo].[TRWInboxHis]: 0
+- [TESTDB1].[dbo].[THIPOTHistory]: 302
+- [TESTDB1].[dbo].[TScrap]: 0
+- [TESTDB1].[dbo].[TPPProcessLabel]: 0
+- [TESTDB1].[dbo].[TSADelv]: 0
+- [TESTDB1].[dbo].[TDIQCDefect]: 0
+- [TESTDB1].[dbo].[TPPInboxMst]: 0
+- [TESTDB1].[dbo].[TMIPOItem]: 0
+- [TESTDB1].[dbo].[TPPDelvCheckKey_DHN]: 0
+- [TESTDB1].[dbo].[TCTVendorPassword]: 1083
+- [TESTDB1].[dbo].[TDALotHold]: 0
+- [TESTDB1].[dbo].[TDAWC]: 0
+- [TESTDB1].[dbo].[TCTMenuSecu]: 426
+- [TESTDB1].[dbo].[TUGDelvPrintDetail_DELHIS]: 0
+- [TESTDB1].[dbo].[TPPInboxRepackTemp]: 0
+- [TESTDB1].[dbo].[TPPInspectionS]: 136
+- [TESTDB1].[dbo].[TPDAuto_HIPOT_In]: 260
+- [TESTDB1].[dbo].[TDAInventory]: 0
+- [TESTDB1].[dbo].[TMIDelvPrintDetail_DELHIS]: 0
+- [TESTDB1].[dbo].[TICTHistory]: 66
+- [TESTDB1].[dbo].[TPPProcessLabel_DELHIS]: 0
+- [TESTDB1].[dbo].[TPDHistory_HIPOT]: 0
+- [TESTDB1].[dbo].[TPPDelvWH_log]: 0
+- [TESTDB1].[dbo].[WCRegD]: 0
+- [TESTDB1].[dbo].[TDANumChar]: 36
+- [TESTDB1].[dbo].[TPPWorkreportWIPDefect_DELHIS]: 0
+- [TESTDB1].[dbo].[THNTCustItem]: 0
+Determine number of rows to copy finished
+Copy data to target RDBMS....
+
+Migrating data...
+/usr/libexec/mysql-workbench/wbcopytables-bin --odbc-source="DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1" --force-utf8-for-source --target="root@127.0.0.1:3306" --progress --passwords-from-stdin --thread-count=2 --source-rdbms-type=Mssql --table [TESTDB1] [dbo].[TDAItemRev] `TESTDB1` `TDAItemRev`   [Seq], [ItemSeq], CAST([RevNo] as NVARCHAR(10)) as [RevNo], CAST([AppDate] as NCHAR(8)) as [AppDate], [RevItem], [Remark] --table [TESTDB1] [dbo].[TMT] `TESTDB1` `TMT` [Seq] `Seq` [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], CAST([I] as NVARCHAR(100)) as [I] --table [TESTDB1] [dbo].[TMTHistory] `TESTDB1` `TMTHistory`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], CAST([I] as NVARCHAR(100)) as [I], [DateTime] --table [TESTDB1] [dbo].[TPPDelvPrintDetail_DELHIS] `TESTDB1` `TPPDelvPrintDetail_DELHIS`   [Seq], [DelvPrtSeq], [InboxSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPOQC] `TESTDB1` `TPPOQC`   [Seq], [WOSeq], [ItemSeq], CAST([OQCDate] as NCHAR(8)) as [OQCDate], CAST([OQCEmp] as NVARCHAR(50)) as [OQCEmp], [QtyInPut], [QCQty], [NGQty], [OKQty], [OutBoxSeq] --table [TESTDB1] [dbo].[TPDOQCReq] `TESTDB1` `TPDOQCReq`   [Seq], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [ReqEmpSeq], CAST([ReqDate] as NCHAR(8)) as [ReqDate], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TMIDelvPrint] `TESTDB1` `TMIDelvPrint`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [POSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN] --table [TESTDB1] [dbo].[TPPDelvWH] `TESTDB1` `TPPDelvWH`   [Seq], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], CAST([WHCd] as NCHAR(2)) as [WHCd], CAST([InDate] as NCHAR(8)) as [InDate], CAST([GoodInNo] as NVARCHAR(20)) as [GoodInNo], CAST([EmpId] as NCHAR(8)) as [EmpId] --table [TESTDB1] [dbo].[TCTModule] `TESTDB1` `TCTModule`   [Seq], [ModuleNm], [DicSeq], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TDADept] `TESTDB1` `TDADept`   [Seq], [DeptTypeSeq], [DeptNm], [DeptNmEn], CAST([ERPKey] as NCHAR(5)) as [ERPKey] --table [TESTDB1] [dbo].[TPPOutboxLabel] `TESTDB1` `TPPOutboxLabel`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [OutWeight], [WeightUnitSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq] --table [TESTDB1] [dbo].[TPPInboxLabel_DELHIS] `TESTDB1` `TPPInboxLabel_DELHIS`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([InboxID] as NVARCHAR(100)) as [InboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [InputEmp], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], CAST([WorkerNum] as BIGINT) as [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TDOQCDetail] `TESTDB1` `TDOQCDetail` [Seq] `Seq` [Seq], [WOSeq], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [Qty], [NGQty], [OKQty], [OutboxSeq] --table [TESTDB1] [dbo].[TPPDelvCheckKey] `TESTDB1` `TPPDelvCheckKey`   CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [RegTime] --table [TESTDB1] [dbo].[TPPOutboxDelvRe] `TESTDB1` `TPPOutboxDelvRe`   [Seq], [OutboxSeq], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], CAST([Serl] as NCHAR(4)) as [Serl] --table [TESTDB1] [dbo].[TDAOrg] `TESTDB1` `TDAOrg`   [Seq], CAST([OrgCd] as NVARCHAR(50)) as [OrgCd], [DeptNm], CAST([Lvl] as NVARCHAR(10)) as [Lvl], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([EmpId] as NCHAR(8)) as [EmpId] --table [TESTDB1] [dbo].[TDAWH] `TESTDB1` `TDAWH`   [Seq], [WHNm], [WHType], [WHStatus], [Remark], CAST([ERPKey] as NCHAR(2)) as [ERPKey] --table [TESTDB1] [dbo].[TCTDictionary] `TESTDB1` `TCTDictionary`   [Seq], [LanSeq], [DicName], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TCTProcess] `TESTDB1` `TCTProcess`   [Seq], [ModuleSeq], [ProcessNm], [ParentSeq], [DicSeq], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDOQCSerial] `TESTDB1` `TPDOQCSerial`   [Seq], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [QCEmpSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], CAST([NGYN] as NCHAR(1)) as [NGYN], [QCTimes], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDRepairReq] `TESTDB1` `TPDRepairReq`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], CAST([ProcCd] as NVARCHAR(10)) as [ProcCd], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDAuto_FT1_Out] `TESTDB1` `TPDAuto_FT1_Out` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TPPOQCDefect] `TESTDB1` `TPPOQCDefect`   [Seq], [DefectSeq], [QtyInPut], CAST([ControlType] as NCHAR(1)) as [ControlType], [OutboxSeq], CAST([ERPKey] as NVARCHAR(10)) as [ERPKey] --table [TESTDB1] [dbo].[TDAEmpMaster] `TESTDB1` `TDAEmpMaster`   CAST([EmpId] as NCHAR(8)) as [EmpId], [EmpNm], [EmpEngNm], [EmpChnNm], [ResidId], CAST([SexCd] as NCHAR(8)) as [SexCd], CAST([EntDate] as NCHAR(8)) as [EntDate], CAST([RetDate] as NCHAR(8)) as [RetDate], CAST([RetAmtCntDate] as NCHAR(8)) as [RetAmtCntDate], CAST([MidDate] as NCHAR(8)) as [MidDate], CAST([YyCntDate] as NCHAR(8)) as [YyCntDate], CAST([MmCntDate] as NCHAR(8)) as [MmCntDate], CAST([PuCd] as NCHAR(1)) as [PuCd], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WkDeptCd] as NCHAR(5)) as [WkDeptCd], CAST([PgCd] as NCHAR(8)) as [PgCd], CAST([Ps] as NCHAR(3)) as [Ps], CAST([JpCd] as NCHAR(8)) as [JpCd], CAST([JdCd] as NCHAR(8)) as [JdCd], CAST([JoCd] as NCHAR(8)) as [JoCd], CAST([PtCd] as NCHAR(5)) as [PtCd], CAST([WsCd] as NCHAR(8)) as [WsCd], CAST([MedNo1] as NCHAR(15)) as [MedNo1], CAST([MedNo2] as NCHAR(15)) as [MedNo2], CAST([BOD] as NCHAR(8)) as [BOD], CAST([LunarYn] as NCHAR(1)) as [LunarYn], CAST([MarryYn] as NCHAR(1)) as [MarryYn], CAST([MarryDate] as NCHAR(8)) as [MarryDate], CAST([DisabledYn] as NCHAR(1)) as [DisabledYn], CAST([PassportNo] as NCHAR(10)) as [PassportNo], CAST([FrgnYn] as NCHAR(1)) as [FrgnYn], CAST([ResidYn] as NCHAR(18)) as [ResidYn], [Height], [Weight], CAST([BloodTypeCd] as NCHAR(8)) as [BloodTypeCd], [ShoesSize], CAST([UpClothesSize] as NCHAR(4)) as [UpClothesSize], CAST([DnClothesSize] as NCHAR(4)) as [DnClothesSize], [EyeLt], [EyeRt], [Speciality], [Hobby], CAST([ReligionCd] as NCHAR(8)) as [ReligionCd], CAST([HouseTypeCd] as NCHAR(8)) as [HouseTypeCd], CAST([HouseOwnTypeCd] as NCHAR(8)) as [HouseOwnTypeCd], CAST([MilSrvCd] as NCHAR(8)) as [MilSrvCd], CAST([MilSoldierNo] as NCHAR(10)) as [MilSoldierNo], CAST([MilKindCd] as NCHAR(8)) as [MilKindCd], CAST([MilBrnchCd] as NCHAR(8)) as [MilBrnchCd], CAST([MilClsCd] as NCHAR(8)) as [MilClsCd], CAST([MilSpcCd] as NCHAR(8)) as [MilSpcCd], CAST([MilRsrcCd] as NCHAR(8)) as [MilRsrcCd], CAST([MilEnrolDate] as NCHAR(8)) as [MilEnrolDate], CAST([MilTransDate] as NCHAR(8)) as [MilTransDate], CAST([MilRnkCd] as NCHAR(8)) as [MilRnkCd], CAST([MilDschrgTypeCd] as NCHAR(8)) as [MilDschrgTypeCd], CAST([MilVetTypeCd] as NCHAR(8)) as [MilVetTypeCd], CAST([MilExTypeCd] as NCHAR(8)) as [MilExTypeCd], CAST([MilExNo] as NCHAR(10)) as [MilExNo], CAST([MilExBegDate] as NCHAR(8)) as [MilExBegDate], CAST([MilExEndDate] as NCHAR(8)) as [MilExEndDate], CAST([DisabledTypeCd] as NCHAR(8)) as [DisabledTypeCd], [DisabledGrd], [DisabledReason], CAST([DisabledApprvDate] as NCHAR(8)) as [DisabledApprvDate], CAST([PatVetNo] as NCHAR(12)) as [PatVetNo], CAST([PatVetTypeCd] as NCHAR(8)) as [PatVetTypeCd], [PatVetDtlType], CAST([PatVetEntReason] as NCHAR(20)) as [PatVetEntReason], [PatVetSelf1], [PatVetSelf2], [EntWantWk1], [EntWantWk2], [EntWantWkPlc1], [EntWantWkPlc2], [EntRem], [EntActRcmNm], [EntActRcmCo], [EntActRcmJp], [EntActRcmRel], CAST([EntRcmEmpId] as NCHAR(8)) as [EntRcmEmpId], [HouseHolder], CAST([HouseHolderRelCd] as NCHAR(8)) as [HouseHolderRelCd], [PermAddr1], [PermAddr2], [CurrTel], [HpTel], [EmergTel], CAST([ResidZip] as NCHAR(6)) as [ResidZip], [ResidAddr1], [ResidAddr2], CAST([CurrZip] as NCHAR(6)) as [CurrZip], [CurrAddr1], [CurrAddr2], [EmailId], CAST([TrnBankCd] as NCHAR(8)) as [TrnBankCd], CAST([TrnAccNo] as NCHAR(20)) as [TrnAccNo], CAST([TrnCoBankCd] as NCHAR(8)) as [TrnCoBankCd], CAST([TrnCoAccNo] as NCHAR(20)) as [TrnCoAccNo], [TrnOwnerNm], [SpouseCnt], [WkTogetherCnt], [Depen20Cnt], [Depen60Cnt], [DisabledCnt], [OldPersonCnt], CAST([ApplyHireInsYn] as NCHAR(1)) as [ApplyHireInsYn], [DepenUnder6Cnt], [SpouseACnt], [DepenACnt], CAST([TechManCntDate] as NCHAR(8)) as [TechManCntDate], [TechManExYy], [TechManExMm], CAST([AdjBsUCd] as NCHAR(5)) as [AdjBsUCd], [LoginId], CAST([LoginPwd] as NCHAR(10)) as [LoginPwd], [ComputerNm], [TruncEmpNm], CAST([NationalityCd] as NCHAR(8)) as [NationalityCd], CAST([EmployMth] as NCHAR(8)) as [EmployMth], CAST([ApplyMedYn] as NCHAR(1)) as [ApplyMedYn], CAST([AbrWkYn] as NCHAR(1)) as [AbrWkYn], CAST([FrgnTechYn] as NCHAR(1)) as [FrgnTechYn], CAST([TechManYn] as NCHAR(1)) as [TechManYn], CAST([DeptOrdDate] as NCHAR(8)) as [DeptOrdDate], CAST([PgOrdDate] as NCHAR(8)) as [PgOrdDate], CAST([JpOrdDate] as NCHAR(8)) as [JpOrdDate], CAST([PsOrdDate] as NCHAR(8)) as [PsOrdDate], CAST([SvrStrDate] as NCHAR(8)) as [SvrStrDate], CAST([UpdateEmpId] as NCHAR(8)) as [UpdateEmpId], CAST([GrpEntDate] as NCHAR(8)) as [GrpEntDate], CAST([UpdateDate] as NCHAR(8)) as [UpdateDate], CAST([YangLaoYn] as NCHAR(1)) as [YangLaoYn], CAST([YiLiaoYn] as NCHAR(1)) as [YiLiaoYn], CAST([ShiYeYn] as NCHAR(1)) as [ShiYeYn], CAST([GongYn] as NCHAR(1)) as [GongYn], CAST([ShengYuYn] as NCHAR(1)) as [ShengYuYn], CAST([PsnGrd] as NCHAR(8)) as [PsnGrd], CAST([PayPrintType] as NCHAR(1)) as [PayPrintType], [Depen70Cnt], CAST([LabMan] as NCHAR(1)) as [LabMan], CAST([JuMedYn] as NCHAR(1)) as [JuMedYn], CAST([HousefundYn] as NCHAR(1)) as [HousefundYn], [EthnicCd], [FixRate], [ResidIdPlace], CAST([ResidIdDate] as NCHAR(8)) as [ResidIdDate] --table [TESTDB1] [dbo].[TPPOutboxDetail] `TESTDB1` `TPPOutboxDetail`   [Seq], [OutboxSeq], [InboxSeq], [VISeq], CAST([VIConfirm] as NCHAR(1)) as [VIConfirm] --table [TESTDB1] [dbo].[TPDHold] `TESTDB1` `TPDHold`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [HoldEmpSeq], CAST([HoldDate] as NCHAR(8)) as [HoldDate], CAST([HoldYN] as NCHAR(1)) as [HoldYN], [HoldReason], [UnHoldReason], [UnHoldEmpSeq], CAST([UnHoldDate] as NCHAR(8)) as [UnHoldDate], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDAuto_FT2_Out] `TESTDB1` `TPDAuto_FT2_Out` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TDOQCDefect] `TESTDB1` `TDOQCDefect`   [Seq], [DefectSeq], [QtyInPut], CAST([ControlType] as NCHAR(1)) as [ControlType], [OutboxSeq] --table [TESTDB1] [dbo].[TDAErrorMsg] `TESTDB1` `TDAErrorMsg`   [Seq], CAST([MsgID] as NVARCHAR(10)) as [MsgID], [LanSeq], [MsgName] --table [TESTDB1] [dbo].[TPDScrapCfr] `TESTDB1` `TPDScrapCfr`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], CAST([CfrYN] as NCHAR(1)) as [CfrYN], [CfrEmpSeq], CAST([CfrDate] as NCHAR(8)) as [CfrDate], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDLabelSerial] `TESTDB1` `TPDLabelSerial`   [Seq], [ItemSeq], CAST([SerialNo] as NCHAR(4)) as [SerialNo], CAST([RevNo] as NVARCHAR(10)) as [RevNo], CAST([ManDate] as NCHAR(8)) as [ManDate], CAST([ManLine] as NVARCHAR(10)) as [ManLine], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDRepair] `TESTDB1` `TPDRepair`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], CAST([ProcCd] as NVARCHAR(10)) as [ProcCd], [RepairEmpSeq], CAST([RepairDate] as NCHAR(8)) as [RepairDate], CAST([RepairOK] as NCHAR(1)) as [RepairOK], [RepairCont], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES] `TESTDB1` `TPPMESWIPDelvNo_MES`   CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [WIPSeq] --table [TESTDB1] [dbo].[TPPMatchCheck] `TESTDB1` `TPPMatchCheck`   [Seq], [OutboxSeq], [Workdate], CAST([PassYN] as NCHAR(1)) as [PassYN], [EmpSeq], CAST([Location] as NVARCHAR(10)) as [Location] --table [TESTDB1] [dbo].[TDAMold] `TESTDB1` `TDAMold`   [Seq], [MoldTypeSeq], CAST([MoldNo] as NVARCHAR(200)) as [MoldNo], [MoldNm], [Spec], [StatusSeq], CAST([Rev] as NVARCHAR(10)) as [Rev], [Cavity], [DesignShot], [WorkShot], [InitShot], CAST([RevVal] as NVARCHAR(10)) as [RevVal] --table [TESTDB1] [dbo].[TICT] `TESTDB1` `TICT`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], [C90V_Min_13_2Vout_volt], [C90V_Max_13_2Vout_volt], [C264V_Min_13_2Vout_volt], [C264V_Max_13_2Vout_volt], [C220V_Min_13_2Vout_volt], [C220V_Max_13_2Vout_volt], [C220V_Typ_LED_volt], [C220V_Typ_LED_Curr], [C220V_Typ_DIM_Curr], [C230V_DPM], [C220V_Set_start_13_2Vout_volt], [C220V_Set_oprating_13_2Vout_volt], [C220V_Set_end_13_2Vout_volt], [C220V_Set_LED_volt], [CDischargevolt], CAST([judge] as NVARCHAR(100)) as [judge] --table [TESTDB1] [dbo].[TPPWorkreportWIP] `TESTDB1` `TPPWorkreportWIP`   [Seq], [WOSeq], CAST([ProcSeq] as NCHAR(8)) as [ProcSeq], [WCSeq], [ItemSeq], [CheckInEmpSeq], [CheckOutEmpSeq], [DeptSeq], [Shift], CAST([Machine] as NVARCHAR(100)) as [Machine], [CheckInTime], [CheckOutTime], [InputQty], [NGQty], [OKQty], [RegDate], [UnitSeq], CAST([VourcherNo] as NVARCHAR(100)) as [VourcherNo], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([Serl] as NCHAR(4)) as [Serl], CAST([LotSerl] as NCHAR(3)) as [LotSerl], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl] --table [TESTDB1] [dbo].[TPPWorkReportWIP_DelLog] `TESTDB1` `TPPWorkReportWIP_DelLog`   [WOSeq], CAST([ProcSeq] as NCHAR(8)) as [ProcSeq], [WCSeq], [ItemSeq], [CheckInEmpSeq], [CheckOutEmpSeq], [DeptSeq], [Shift], CAST([Machine] as NVARCHAR(100)) as [Machine], [CheckInTime], [CheckOutTime], [InputQty], [NGQty], [OKQty], [RegDate], [UnitSeq], CAST([VourcherNo] as NVARCHAR(100)) as [VourcherNo], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([Serl] as NCHAR(4)) as [Serl], CAST([LotSerl] as NCHAR(3)) as [LotSerl], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], [DelDate], CAST([DelUser] as NVARCHAR(100)) as [DelUser], [Seq] --table [TESTDB1] [dbo].[TDAUnit] `TESTDB1` `TDAUnit`   [Seq], [UnitNm], [OtherName], [StdUnitSeq], [ConvStdQty], [DicSeq], [Remark], CAST([ERPKey] as NCHAR(3)) as [ERPKey] --table [TESTDB1] [dbo].[TUGDelv] `TESTDB1` `TUGDelv`   [Seq], [POSeq], [OutboxSeq], CAST([Stkdate] as NCHAR(8)) as [Stkdate], [EmpSeq], CAST([ERPKey] as NVARCHAR(50)) as [ERPKey], CAST([WHSeq] as NVARCHAR(10)) as [WHSeq] --table [TESTDB1] [dbo].[TPEQCDefect_DELHIS] `TESTDB1` `TPEQCDefect_DELHIS`   [Seq], [QCDefectSeq], [QCSeq], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [DefectSeq], [NGQty], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TMIDelv] `TESTDB1` `TMIDelv`   [Seq], [POSeq], [OutboxSeq], CAST([Stkdate] as NCHAR(8)) as [Stkdate], [EmpSeq], CAST([ERPKey] as NVARCHAR(50)) as [ERPKey], CAST([WHSeq] as NVARCHAR(10)) as [WHSeq] --table [TESTDB1] [dbo].[TPPOutboxDelv] `TESTDB1` `TPPOutboxDelv`   [Seq], [OutboxSeq], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], CAST([Serl] as NCHAR(4)) as [Serl] --table [TESTDB1] [dbo].[TPPOutboxLabelRe] `TESTDB1` `TPPOutboxLabelRe`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [OutWeight], [WeightUnitSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], CAST([KROrSW] as NCHAR(1)) as [KROrSW] --table [TESTDB1] [dbo].[Student] `TESTDB1` `Student` [Seq] `Seq` [Seq], [Name], [Add] --table [TESTDB1] [dbo].[TDAMinor] `TESTDB1` `TDAMinor`   [Seq], [MajorSeq], [MinorNm], [DicSeq], CAST([MinorValue] as NVARCHAR(100)) as [MinorValue], [Sort], [Memo1], [Memo2], [Memo3], [Memo4], [Memo5], [Memo6], [Memo7], [Memo8], [Memo9], [Memo10], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDScrap] `TESTDB1` `TPDScrap`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [EmpSeq], CAST([ScrapDate] as NCHAR(8)) as [ScrapDate], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_TEST] `TESTDB1` `TPPMESWIPDelvNo_MES_TEST`   CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [WIPSeq] --table [TESTDB1] [dbo].[TFTHistory] `TESTDB1` `TFTHistory`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], [I], [J], [K], [L], [M], [N], [O], [P], [Q], [R], CAST([S] as NVARCHAR(100)) as [S], [DateTime] --table [TESTDB1] [dbo].[TDAMoldModel] `TESTDB1` `TDAMoldModel`   [Seq], [MoldSeq], [ItemSeq] --table [TESTDB1] [dbo].[TPPOutboxDetail_DELHIS] `TESTDB1` `TPPOutboxDetail_DELHIS`   [Seq], [OutboxSeq], [InboxSeq], [VISeq], CAST([VIConfirm] as NCHAR(1)) as [VIConfirm], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPInboxRepackHis] `TESTDB1` `TPPInboxRepackHis`   [Seq], [InboxSeq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([InboxID] as NVARCHAR(100)) as [InboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [RepackEmpSeq], [RepackDate], [PackTime] --table [TESTDB1] [dbo].[TPDAuto_HIPOT_Out] `TESTDB1` `TPDAuto_HIPOT_Out` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TRWOutboxDetailHis] `TESTDB1` `TRWOutboxDetailHis`   [RWTimes], [OutboxSeq], [InboxSeq], [VISeq], CAST([VIConfirm] as NCHAR(1)) as [VIConfirm], [RWDate] --table [TESTDB1] [dbo].[TRWConfirm] `TESTDB1` `TRWConfirm`   [Seq], CAST([OutboxID] as NVARCHAR(50)) as [OutboxID], [CfrDate], [DeptSeq], [EmpSeq] --table [TESTDB1] [dbo].[TDASpNM] `TESTDB1` `TDASpNM`   [Seq], CAST([SPNm] as NVARCHAR(50)) as [SPNm], [Remark] --table [TESTDB1] [dbo].[TPPDelvPrint] `TESTDB1` `TPPDelvPrint`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [WIPSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN] --table [TESTDB1] [dbo].[TPPSPMStdReg] `TESTDB1` `TPPSPMStdReg` [Seq] `Seq` [Seq], [DeptSeq], [WCSeq], [SYear], [QuaterQ1], [CAPARate1], [SPM1], [QuaterQ2], [CAPARate2], [SPM2], [QuaterQ3], [CAPARate3], [SPM3], [QuaterQ4], [CAPARate4], [SPM4] --table [TESTDB1] [dbo].[TPPInboxLabel] `TESTDB1` `TPPInboxLabel`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([InboxID] as NVARCHAR(100)) as [InboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [InputEmp], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl] --table [TESTDB1] [dbo].[TPPOutboxDetailRe] `TESTDB1` `TPPOutboxDetailRe`   [Seq], [OutboxSeq], [InboxSeq], [VISeq], CAST([VIConfirm] as NCHAR(1)) as [VIConfirm] --table [TESTDB1] [dbo].[TDADevice] `TESTDB1` `TDADevice`   [Seq], [DeviceTypeSeq], [DeviceID], [Spec], [Location], [StatusSeq], [PrintPort], [UserDefine1], [UserDefine2], [UserDefine3], [UserDefine4], [UserDefine5], [Remark], CAST([Location1] as NVARCHAR(10)) as [Location1] --table [TESTDB1] [dbo].[TPPVILabel] `TESTDB1` `TPPVILabel`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([VIID] as NVARCHAR(100)) as [VIID], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [Remark], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq] --table [TESTDB1] [dbo].[TPDHisory_ICT] `TESTDB1` `TPDHisory_ICT`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], [C90V_Min_13_2Vout_volt], [C90V_Max_13_2Vout_volt], [C264V_Min_13_2Vout_volt], [C264V_Max_13_2Vout_volt], [C220V_Min_13_2Vout_volt], [C220V_Max_13_2Vout_volt], [C220V_Typ_LED_volt], [C220V_Typ_LED_Curr], [C220V_Typ_DIM_Curr], [C230V_DPM], [C220V_Set_start_13_2Vout_volt], [C220V_Set_oprating_13_2Vout_volt], [C220V_Set_end_13_2Vout_volt], [C220V_Set_LED_volt], [CDischargevolt], CAST([judge] as NVARCHAR(100)) as [judge], [DateTime] --table [TESTDB1] [dbo].[TDAItem] `TESTDB1` `TDAItem`   [Seq], CAST([AssetType] as NVARCHAR(2)) as [AssetType], [ItemNo], [ItemNm], [Spec], [UnitSeq], [OtheName], [VILabel], [WHSeq], [Remark], [StatusSeq], CAST([ImageYN] as NVARCHAR(1)) as [ImageYN], CAST([SalesItemCode] as NVARCHAR(50)) as [SalesItemCode], CAST([ProdLabel] as NVARCHAR(50)) as [ProdLabel], CAST([LabelType] as NVARCHAR(50)) as [LabelType], [InboxQty], [OutboxQty], CAST([ItemClss1] as NVARCHAR(50)) as [ItemClss1], CAST([ItemClss2] as NVARCHAR(50)) as [ItemClss2], CAST([ItemClss3] as NVARCHAR(50)) as [ItemClss3], CAST([ItemClss4] as NVARCHAR(50)) as [ItemClss4], [ImageData], CAST([ERPKey] as NVARCHAR(50)) as [ERPKey], CAST([VILabelType] as NVARCHAR(10)) as [VILabelType], CAST([QCYN] as NCHAR(1)) as [QCYN], [MinW], [MaxW] --table [TESTDB1] [dbo].[TPPInboxLabelRe] `TESTDB1` `TPPInboxLabelRe`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([InboxID] as NVARCHAR(100)) as [InboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [InputEmp], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], CAST([KROrSW] as NCHAR(1)) as [KROrSW] --table [TESTDB1] [dbo].[TRWOutboxDelv] `TESTDB1` `TRWOutboxDelv`   CAST([OutboxID] as NVARCHAR(50)) as [OutboxID], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [RWDate] --table [TESTDB1] [dbo].[TDATableD] `TESTDB1` `TDATableD`   [Seq], [TableSeq], CAST([TableColumn] as NVARCHAR(50)) as [TableColumn], CAST([ColumnType] as NVARCHAR(50)) as [ColumnType], [Remark], CAST([IsKey] as NVARCHAR(50)) as [IsKey], CAST([Size] as NVARCHAR(50)) as [Size], CAST([IsNUlll] as NVARCHAR(50)) as [IsNUlll] --table [TESTDB1] [dbo].[TPPInboxDst] `TESTDB1` `TPPInboxDst`   [Seq], [InboxSeq], CAST([InboxID] as NVARCHAR(100)) as [InboxID], [Qty] --table [TESTDB1] [dbo].[TPEQC_DELHIS] `TESTDB1` `TPEQC_DELHIS`   [Seq], [QCSeq], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [QCQty], [OKQty], [NGQty], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TCTLanguage] `TESTDB1` `TCTLanguage`   [Seq], [LanguageNm] --table [TESTDB1] [dbo].[TPPOutboxRepackHis] `TESTDB1` `TPPOutboxRepackHis`   [Seq], [OutboxSeq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], [PackTime], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [OutWeight], [WeightUnitSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [CancelDate] --table [TESTDB1] [dbo].[TPPWOCheckInOut] `TESTDB1` `TPPWOCheckInOut`   [Seq], [WOSeq], CAST([CheckIn] as NCHAR(1)) as [CheckIn], [CheckInDate], [CheckInEmpSeq], CAST([CheckOut] as NCHAR(1)) as [CheckOut], [CheckOutDate], [CheckOutEmpSeq] --table [TESTDB1] [dbo].[TDATableM] `TESTDB1` `TDATableM` [Seq] `Seq` [Seq], CAST([TableNM] as NVARCHAR(50)) as [TableNM], [Remark] --table [TESTDB1] [dbo].[TMIDelvPrint_DELHIS] `TESTDB1` `TMIDelvPrint_DELHIS`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [POSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPWorkOrder] `TESTDB1` `TPPWorkOrder`   [Seq], CAST([WorkOrderNo] as NVARCHAR(50)) as [WorkOrderNo], [ItemSeq], CAST([BOMVer] as NCHAR(2)) as [BOMVer], [UnitSeq], [ReqQty], [OrderQty], CAST([ReqCompDate] as NCHAR(8)) as [ReqCompDate], CAST([StrDate] as NCHAR(8)) as [StrDate], CAST([EndDate] as NCHAR(8)) as [EndDate], CAST([ERPKey] as NVARCHAR(50)) as [ERPKey], [WCSeq], [DeptSeq], CAST([OutsourcingYN] as NCHAR(1)) as [OutsourcingYN], CAST([CanCelYn] as NCHAR(1)) as [CanCelYn] --table [TESTDB1] [dbo].[TDATableRefer] `TESTDB1` `TDATableRefer`   [Seq], [TableSeq], CAST([SPRefer] as NVARCHAR(50)) as [SPRefer], [Remark] --table [TESTDB1] [dbo].[TPPOutboxRepackHisDetail] `TESTDB1` `TPPOutboxRepackHisDetail`   [Seq], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], [PackTime], [InboxSeq], [VISeq], CAST([VIConfirm] as NCHAR(1)) as [VIConfirm] --table [TESTDB1] [dbo].[TDOQC] `TESTDB1` `TDOQC` [Seq] `Seq` [Seq], [WOSeq], [ItemSeq], CAST([OQCDate] as NCHAR(8)) as [OQCDate], CAST([OQCEmp] as NVARCHAR(50)) as [OQCEmp], [QtyInPut], [QCQty], [NGQty], [OKQty], [OutBoxSeq] --table [TESTDB1] [dbo].[TDASpNMD] `TESTDB1` `TDASpNMD`   [Seq], [SPSeq], CAST([SPRefer] as NVARCHAR(50)) as [SPRefer], [Remark] --table [TESTDB1] [dbo].[TCTGetERPDataLogs] `TESTDB1` `TCTGetERPDataLogs`   [Seq], [RunTime], CAST([ErrMsg] as NVARCHAR(4000)) as [ErrMsg] --table [TESTDB1] [dbo].[TPPWorkOrderNG] `TESTDB1` `TPPWorkOrderNG`   [Seq], [WOSeq], [NGQty] --table [TESTDB1] [dbo].[TDIQCDetail] `TESTDB1` `TDIQCDetail` [Seq] `Seq` [Seq], [POSeq], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [Qty], [NGQty], [OKQty], [OutboxSeq] --table [TESTDB1] [dbo].[TRWInputOutbox] `TESTDB1` `TRWInputOutbox`   [Seq], CAST([OutboxID] as NVARCHAR(50)) as [OutboxID], [InputDate], [EmpSeq], [DeptSeq] --table [TESTDB1] [dbo].[TPDAuto_FT1_In] `TESTDB1` `TPDAuto_FT1_In` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TPPLaserStdReg] `TESTDB1` `TPPLaserStdReg` [Seq] `Seq` [Seq], [DeptSeq], [WCSeq], [ItemSeq], [SYear], [QuaterQ1], [CAPARate1], [SPM1], [QuaterQ2], [CAPARate2], [SPM2], [QuaterQ3], [CAPARate3], [SPM3], [QuaterQ4], [CAPARate4], [SPM4] --table [TESTDB1] [dbo].[TPPSMDStdReg] `TESTDB1` `TPPSMDStdReg` [Seq] `Seq` [Seq], [DeptSeq], [WCSeq], [SYear], CAST([DeviceType] as NVARCHAR(50)) as [DeviceType], [QuaterQ1], [CAPARate1], [SPM1], [QuaterQ2], [CAPARate2], [SPM2], [QuaterQ3], [CAPARate3], [SPM3], [QuaterQ4], [CAPARate4], [SPM4] --table [TESTDB1] [dbo].[TDAYMDMap] `TESTDB1` `TDAYMDMap`   CAST([YMD] as NCHAR(1)) as [YMD], CAST([Val] as NVARCHAR(4)) as [Val], CAST([Txt] as NCHAR(1)) as [Txt] --table [TESTDB1] [dbo].[TCTMenu] `TESTDB1` `TCTMenu`   [Seq], [ProcessSeq], [PgmSeq], [Sort], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPPInboxRepackSep] `TESTDB1` `TPPInboxRepackSep`   [Seq], [OldInboxSeq], [PackTime], [NewInboxSeq] --table [TESTDB1] [dbo].[TCTPgm] `TESTDB1` `TCTPgm`   [Seq], [ModuleSeq], CAST([PgmID] as NVARCHAR(200)) as [PgmID], [PgmNm], CAST([PgmNamespace] as NVARCHAR(200)) as [PgmNamespace], CAST([PgmStatus] as NCHAR(1)) as [PgmStatus], [PgmWith], [PgmHeight], [DicSeq], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate], CAST([PgmStyle] as NCHAR(1)) as [PgmStyle] --table [TESTDB1] [dbo].[THNTLabelDetail] `TESTDB1` `THNTLabelDetail`   [LabelSeq], CAST([IssueNo] as NVARCHAR(50)) as [IssueNo], [Qty], [RegEmpSeq], [RegDate] --table [TESTDB1] [dbo].[TPDResult_ICT] `TESTDB1` `TPDResult_ICT`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], [C90V_Min_13_2Vout_volt], [C90V_Max_13_2Vout_volt], [C264V_Min_13_2Vout_volt], [C264V_Max_13_2Vout_volt], [C220V_Min_13_2Vout_volt], [C220V_Max_13_2Vout_volt], [C220V_Typ_LED_volt], [C220V_Typ_LED_Curr], [C220V_Typ_DIM_Curr], [C230V_DPM], [C220V_Set_start_13_2Vout_volt], [C220V_Set_oprating_13_2Vout_volt], [C220V_Set_end_13_2Vout_volt], [C220V_Set_LED_volt], [CDischargevolt], CAST([judge] as NVARCHAR(100)) as [judge] --table [TESTDB1] [dbo].[TPEQC] `TESTDB1` `TPEQC`   [Seq], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [QCQty], [OKQty], [NGQty], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey] --table [TESTDB1] [dbo].[TPDItemProc] `TESTDB1` `TPDItemProc`   CAST([GoodCd] as NCHAR(6)) as [GoodCd], CAST([ProcVer] as NCHAR(2)) as [ProcVer], CAST([Serl] as NCHAR(4)) as [Serl], CAST([AssyCd] as NCHAR(6)) as [AssyCd], [ProcSeq], CAST([ProcLevel] as NCHAR(10)) as [ProcLevel], CAST([ProcCd] as NCHAR(8)) as [ProcCd], CAST([AssyBOMVer] as NCHAR(2)) as [AssyBOMVer], CAST([OutProcYn] as NCHAR(1)) as [OutProcYn], CAST([WCCd] as NCHAR(5)) as [WCCd], CAST([UnitCd] as NCHAR(3)) as [UnitCd], [Qty1], [Qty2], CAST([StkUnitCd] as NCHAR(3)) as [StkUnitCd], [StkUnitQty], [StdWorkTime], [ProcTime], [MinNeedTime], [WorkRate], [OutProcCost], CAST([LoadProcYn] as NCHAR(1)) as [LoadProcYn], CAST([FinalProcYn] as NCHAR(1)) as [FinalProcYn], CAST([QCProcYn] as NCHAR(1)) as [QCProcYn], CAST([RegEmpId] as NCHAR(8)) as [RegEmpId], CAST([RegDate] as NCHAR(12)) as [RegDate], CAST([UptEmpId] as NCHAR(8)) as [UptEmpId], CAST([UptDate] as NCHAR(12)) as [UptDate], [ProcUse], CAST([CCtrCd] as NCHAR(5)) as [CCtrCd], [WrkCond1], [WrkCond2], [WrkCond3], [WrkCond4], [WrkCond5], [WrkCond6], [WorkerQty], CAST([StkYn] as NCHAR(1)) as [StkYn], CAST([InProcYn] as NCHAR(1)) as [InProcYn], [LaborWorkRate], [EtcWorkRate], CAST([ValidDate] as NCHAR(8)) as [ValidDate], CAST([AfterProcCd] as NCHAR(8)) as [AfterProcCd] --table [TESTDB1] [dbo].[TPDBOM] `TESTDB1` `TPDBOM`   [Seq], [GoodSeq], CAST([BOMVer] as NCHAR(2)) as [BOMVer], [GoodUnitSeq], [ItemSeq], [ItemUnitSeq], [GoodQty], [ItemQty], [InLoss], [OutLoss], CAST([ConfirmYN] as NCHAR(1)) as [ConfirmYN] --table [TESTDB1] [dbo].[TUGIQCDefect] `TESTDB1` `TUGIQCDefect`   [Seq], [DefectSeq], [QtyInPut], CAST([ControlType] as NCHAR(1)) as [ControlType], [OutboxSeq], CAST([ERPKey] as NVARCHAR(10)) as [ERPKey] --table [TESTDB1] [dbo].[TPPWorkreportWIPDefect] `TESTDB1` `TPPWorkreportWIPDefect`   [Seq], [WIPSeq], [DefectSeq], [NGQty], [WOSeq] --table [TESTDB1] [dbo].[TPPCOATStdReg] `TESTDB1` `TPPCOATStdReg` [Seq] `Seq` [Seq], [DeptSeq], [WCSeq], [ItemSeq], [SYear], CAST([Coating] as NVARCHAR(50)) as [Coating], CAST([Cavity] as NVARCHAR(50)) as [Cavity], [QuaterQ1], [CAPARate1], [SPM1], [QuaterQ2], [CAPARate2], [SPM2], [QuaterQ3], [CAPARate3], [SPM3], [QuaterQ4], [CAPARate4], [SPM4] --table [TESTDB1] [dbo].[TPPInspectionL] `TESTDB1` `TPPInspectionL`   [Seq], CAST([InspectLNo] as NVARCHAR(200)) as [InspectLNo], [InspectLNm], [Remark] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_DUP] `TESTDB1` `TPPMESWIPDelvNo_MES_DUP`   [dup], CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [WIPSeq] --table [TESTDB1] [dbo].[TPDAuto_MT_In] `TESTDB1` `TPDAuto_MT_In` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TUGIQC] `TESTDB1` `TUGIQC`   [Seq], [POSeq], [ItemSeq], CAST([IQCDate] as NCHAR(8)) as [IQCDate], CAST([IQCEmp] as NVARCHAR(50)) as [IQCEmp], [QtyInPut], [QCQty], [NGQty], [OKQty], [OutBoxSeq] --table [TESTDB1] [dbo].[TPDSerialResult] `TESTDB1` `TPDSerialResult`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [Start_Time], [StartEmp], [Inter_In_Time], [Inter_In_Emp], [Inter_Out_Time], [Inter_Out_Emp], CAST([Inter_OK] as NCHAR(1)) as [Inter_OK], [ICT_In_Time], [ICT_In_Emp], [ICT_Out_Time], [ICT_Out_Emp], CAST([ICT_OK] as NCHAR(1)) as [ICT_OK], [Motion_In_Time], [Motion_In_Emp], [Motion_Out_Time], [Motion_Out_Emp], CAST([Motion_OK] as NCHAR(1)) as [Motion_OK], [Pressure_In_Time], [Pressure_In_Emp], [Pressure_Out_Time], [Pressure_Out_Emp], CAST([Pressure_OK] as NCHAR(1)) as [Pressure_OK], [Aging_In_Time], [Aging_In_Emp], [Aging_Out_Time], [Aging_Out_Emp], CAST([Aging_OK] as NCHAR(1)) as [Aging_OK], [Char_In_Time], [Char_In_Emp], [Char_Out_Time], [Char_Out_Emp], CAST([Char_OK] as NCHAR(1)) as [Char_OK], [Final_In_Time], [Final_In_Emp], [Final_Out_Time], [Final_Out_Emp], CAST([Final_OK] as NCHAR(1)) as [Final_OK], [Packing_In_Time], [Packing_In_Emp], [Packing_Out_Time], [Packing_Out_Emp], CAST([Packing_OK] as NCHAR(1)) as [Packing_OK] --table [TESTDB1] [dbo].[TDAWCDevice] `TESTDB1` `TDAWCDevice`   [WCSeq], [DeviceSeq] --table [TESTDB1] [dbo].[WCRegM] `TESTDB1` `WCRegM` [Seq],[WCNoM] `Seq`,`WCNoM` [Seq], [WCNameSum], [MonitorTypeCode], [WCNameM], [WCNoM], CAST([DisplayYN] as NCHAR(1)) as [DisplayYN] --table [TESTDB1] [dbo].[THNTProductYMD] `TESTDB1` `THNTProductYMD`   CAST([CodeType] as NCHAR(1)) as [CodeType], CAST([Val] as NVARCHAR(20)) as [Val], CAST([Code] as NVARCHAR(20)) as [Code] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_LOG] `TESTDB1` `TPPMESWIPDelvNo_MES_LOG`   CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [WIPSeq] --table [TESTDB1] [dbo].[TRWInboxHisMap] `TESTDB1` `TRWInboxHisMap`   [Seq], CAST([InboxID] as NVARCHAR(50)) as [InboxID], CAST([OldInboxID] as NVARCHAR(50)) as [OldInboxID], CAST([InputDate] as NCHAR(8)) as [InputDate], [EmpSeq], [ProdQty], [OKQty], [NGQty] --table [TESTDB1] [dbo].[TPPOutboxLabel_DELHIS] `TESTDB1` `TPPOutboxLabel_DELHIS`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([OutWeight] as BIGINT) as [OutWeight], [WeightUnitSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[THIPOT] `TESTDB1` `THIPOT` [Seq] `Seq` [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D] --table [TESTDB1] [dbo].[TUGIQCDetail] `TESTDB1` `TUGIQCDetail`   [Seq], [POSeq], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [Qty], [NGQty], [OKQty], [OutboxSeq], CAST([ERPKey] as NVARCHAR(10)) as [ERPKey] --table [TESTDB1] [dbo].[TPDHistory_MT] `TESTDB1` `TPDHistory_MT`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], CAST([I] as NVARCHAR(100)) as [I], [DateTime] --table [TESTDB1] [dbo].[TCTUser] `TESTDB1` `TCTUser`   [Seq], [UserID], [LoginID], [EmpNm], [EmpNo], CAST([EmpID] as NCHAR(8)) as [EmpID], [DeptNm], CAST([DeptCd] as NCHAR(5)) as [DeptCd], [Password], [Location], CAST([Outsite] as NCHAR(1)) as [Outsite], CAST([ERPKey] as NCHAR(8)) as [ERPKey], [CustSeq], CAST([AdminYN] as NCHAR(1)) as [AdminYN], CAST([ProcCd] as NCHAR(8)) as [ProcCd] --table [TESTDB1] [dbo].[TPDResult_MT] `TESTDB1` `TPDResult_MT` [Seq] `Seq` [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], CAST([I] as NVARCHAR(100)) as [I] --table [TESTDB1] [dbo].[TUGDelvPrint] `TESTDB1` `TUGDelvPrint`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [POSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN] --table [TESTDB1] [dbo].[TPDResult_HIPOT] `TESTDB1` `TPDResult_HIPOT` [Seq] `Seq` [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D] --table [TESTDB1] [dbo].[TFT] `TESTDB1` `TFT` [Seq] `Seq` [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [E], [F], [G], [H], [I], [J], [K], [L], [M], [N], [O], [P], [Q], [R], CAST([S] as NVARCHAR(100)) as [S] --table [TESTDB1] [dbo].[TRWInputInbox] `TESTDB1` `TRWInputInbox`   [Seq], CAST([OutboxID] as NVARCHAR(50)) as [OutboxID], CAST([InboxID] as NVARCHAR(50)) as [InboxID], [InputDate], [EmpSeq] --table [TESTDB1] [dbo].[TDASpRefer] `TESTDB1` `TDASpRefer`   [Seq], [SPSeq], CAST([SPRefer] as NVARCHAR(50)) as [SPRefer], [Remark] --table [TESTDB1] [dbo].[TPPDelvPrintRe] `TESTDB1` `TPPDelvPrintRe`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [WIPSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN], CAST([KROrSW] as NCHAR(1)) as [KROrSW] --table [TESTDB1] [dbo].[TPPWorkreportWIP_DELHIS] `TESTDB1` `TPPWorkreportWIP_DELHIS`   [Seq], [WOSeq], CAST([ProcSeq] as NCHAR(8)) as [ProcSeq], [WCSeq], [ItemSeq], [CheckInEmpSeq], [CheckOutEmpSeq], [DeptSeq], [Shift], CAST([Machine] as NVARCHAR(100)) as [Machine], [CheckInTime], [CheckOutTime], CAST([InputQty] as BIGINT) as [InputQty], CAST([NGQty] as BIGINT) as [NGQty], CAST([OKQty] as BIGINT) as [OKQty], [RegDate], [UnitSeq], CAST([VourcherNo] as NVARCHAR(100)) as [VourcherNo], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([Serl] as NCHAR(4)) as [Serl], CAST([LotSerl] as NCHAR(3)) as [LotSerl], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], CAST([WorkerNum] as BIGINT) as [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPMESWIPDelvNo_MES_DELHIS] `TESTDB1` `TPPMESWIPDelvNo_MES_DELHIS`   CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [WIPSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TRWOutboxHis] `TESTDB1` `TRWOutboxHis`   [OutBoxSeq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([OutboxID] as NVARCHAR(100)) as [OutboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [OutWeight], [WeightUnitSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [RWTimes], [RWDate], [RWEmpSeq], CAST([RWAct] as NVARCHAR(10)) as [RWAct] --table [TESTDB1] [dbo].[TPPInspectionM] `TESTDB1` `TPPInspectionM`   [Seq], [LSeq], CAST([InspectMNo] as NVARCHAR(200)) as [InspectMNo], [InspectMNm], [Remark] --table [TESTDB1] [dbo].[TPPOQCDetail] `TESTDB1` `TPPOQCDetail`   [Seq], [WOSeq], [ItemSeq], CAST([QCDate] as NCHAR(8)) as [QCDate], [Qty], [NGQty], [OKQty], [OutboxSeq], CAST([ERPKey] as NVARCHAR(10)) as [ERPKey] --table [TESTDB1] [dbo].[THNTLabel] `TESTDB1` `THNTLabel`   [Seq], CAST([IssueNo] as NVARCHAR(50)) as [IssueNo], CAST([CustItemCd] as NCHAR(6)) as [CustItemCd], [InboxQty], [OutboxQty], [POQty], [LabelCnt], CAST([ProductLine] as NVARCHAR(10)) as [ProductLine], CAST([Cavity] as NVARCHAR(10)) as [Cavity], CAST([Outsourcing] as NVARCHAR(10)) as [Outsourcing], CAST([Mold] as NVARCHAR(10)) as [Mold], CAST([LabelDate] as NCHAR(8)) as [LabelDate], CAST([LotNo] as NVARCHAR(10)) as [LotNo], CAST([Serl] as NCHAR(2)) as [Serl], [RegEmpSeq], [RegDate] --table [TESTDB1] [dbo].[TPPMatchCheckRe] `TESTDB1` `TPPMatchCheckRe`   [Seq], [OutboxSeq], [Workdate], CAST([PassYN] as NCHAR(1)) as [PassYN], [EmpSeq], CAST([Location] as NVARCHAR(10)) as [Location] --table [TESTDB1] [dbo].[TPDPackingD] `TESTDB1` `TPDPackingD`   [Seq], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([Serl] as NCHAR(4)) as [Serl], CAST([LabelID] as NVARCHAR(50)) as [LabelID], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPDAuto_MT_Out] `TESTDB1` `TPDAuto_MT_Out` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TUGPOItem] `TESTDB1` `TUGPOItem`   [Seq], CAST([PONo] as NVARCHAR(50)) as [PONo], CAST([PODate] as NCHAR(8)) as [PODate], [SupSeq], [POEmpSeq], [ItemSeq], [UnitSeq], CAST([Curr] as NVARCHAR(10)) as [Curr], [Qty], [Price], [Amt], CAST([ReqDate] as NCHAR(8)) as [ReqDate], CAST([PlaceType] as NVARCHAR(50)) as [PlaceType], [DelvPlace], [Remark], CAST([ERPKey] as NCHAR(4)) as [ERPKey] --table [TESTDB1] [dbo].[TPEGoodIn] `TESTDB1` `TPEGoodIn`   CAST([AccUnit] as NCHAR(2)) as [AccUnit], CAST([DeptCd] as NCHAR(5)) as [DeptCd], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([Serl] as NCHAR(4)) as [Serl], CAST([WHCd] as NCHAR(2)) as [WHCd], CAST([PlanLotNo] as NCHAR(16)) as [PlanLotNo], CAST([InDate] as NCHAR(8)) as [InDate], CAST([InDeptCd] as NCHAR(5)) as [InDeptCd], CAST([EmpId] as NCHAR(8)) as [EmpId], CAST([GoodCd] as NCHAR(6)) as [GoodCd], [ProdQty], [UnitPrice], [Amt], CAST([InPutStatus] as NCHAR(1)) as [InPutStatus], CAST([RegDate] as NCHAR(14)) as [RegDate], CAST([RegEmpId] as NCHAR(8)) as [RegEmpId], CAST([UptDate] as NCHAR(14)) as [UptDate], CAST([UptEmpId] as NCHAR(8)) as [UptEmpId], CAST([SlipId] as NCHAR(16)) as [SlipId], [RealLotNo], CAST([FlowDate] as NCHAR(8)) as [FlowDate], [ControlNo], CAST([QCNo] as NCHAR(12)) as [QCNo], CAST([GoodInNo] as NCHAR(12)) as [GoodInNo], CAST([GoodInType] as NCHAR(1)) as [GoodInType], CAST([ControlSerl] as NCHAR(4)) as [ControlSerl], [SerialFrom], CAST([UnitCd] as NCHAR(3)) as [UnitCd], [UnitQty], CAST([IsLotEnd] as NCHAR(1)) as [IsLotEnd], CAST([OutSideYn] as NCHAR(1)) as [OutSideYn], CAST([InLotEnd] as NCHAR(1)) as [InLotEnd], [WIPSeq] --table [TESTDB1] [dbo].[TCTOrgPgm] `TESTDB1` `TCTOrgPgm`   [Seq], CAST([OrgCd] as NVARCHAR(50)) as [OrgCd], [MenuSeq], CAST([SecuSave] as NCHAR(1)) as [SecuSave], CAST([SecuDel] as NCHAR(1)) as [SecuDel], CAST([SecuQry] as NCHAR(1)) as [SecuQry], CAST([UseYN] as NCHAR(1)) as [UseYN] --table [TESTDB1] [dbo].[TDAMoldRev] `TESTDB1` `TDAMoldRev`   [Seq], [MoldSeq], CAST([Rev] as NCHAR(2)) as [Rev], [Cavity], [DesignShot], [WorkShot], [InitShot] --table [TESTDB1] [dbo].[TPEQCDefect] `TESTDB1` `TPEQCDefect`   [Seq], [QCSeq], CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], [DefectSeq], [NGQty] --table [TESTDB1] [dbo].[TDAMajor] `TESTDB1` `TDAMajor`   [Seq], [MajorNm], [DicSeq], [MajorType], CAST([ComboSP] as NVARCHAR(100)) as [ComboSP], CAST([CodehelpSP] as NVARCHAR(100)) as [CodehelpSP], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate], CAST([PgmID] as NVARCHAR(100)) as [PgmID], CAST([Namespace] as NVARCHAR(100)) as [Namespace] --table [TESTDB1] [dbo].[TDACust] `TESTDB1` `TDACust`   [Seq], [CustTypeSeq], [CustID], [CustNm], [CustNo], CAST([InitialSeq] as NVARCHAR(10)) as [InitialSeq], [StatusSeq], [TaxCode], [Represent], [PhoneNo], [FaxNo], [Addr], [PIC], [PICPhoneNo], [PICEmail], [Remark], CAST([ERPKey] as NCHAR(6)) as [ERPKey] --table [TESTDB1] [dbo].[TUGDelvPrint_DELHIS] `TESTDB1` `TUGDelvPrint_DELHIS`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [POSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ERPKey] as NVARCHAR(100)) as [ERPKey], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPVILabelRe] `TESTDB1` `TPPVILabelRe`   [Seq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([VIID] as NVARCHAR(100)) as [VIID], [SupSeq], [ItemSeq], [UnitSeq], [Qty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], [Remark], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], CAST([KROrSW] as NCHAR(1)) as [KROrSW] --table [TESTDB1] [dbo].[TDAItemScale] `TESTDB1` `TDAItemScale`   [Seq], CAST([AssetType] as NVARCHAR(2)) as [AssetType], [ItemNo], [ItemNm], [Spec], [UnitSeq], [OtheName], [VILabel], [WHSeq], [Remark], [StatusSeq], CAST([ImageYN] as NVARCHAR(1)) as [ImageYN], CAST([SalesItemCode] as NVARCHAR(50)) as [SalesItemCode], CAST([ProdLabel] as NVARCHAR(50)) as [ProdLabel], CAST([LabelType] as NVARCHAR(50)) as [LabelType], [InboxQty], [OutboxQty], CAST([ItemClss1] as NVARCHAR(50)) as [ItemClss1], CAST([ItemClss2] as NVARCHAR(50)) as [ItemClss2], CAST([ItemClss3] as NVARCHAR(50)) as [ItemClss3], CAST([ItemClss4] as NVARCHAR(50)) as [ItemClss4], [ImageData], CAST([ERPKey] as NVARCHAR(50)) as [ERPKey], CAST([VILabelType] as NVARCHAR(10)) as [VILabelType], CAST([QCYN] as NCHAR(1)) as [QCYN], [MaxW], [MinW] --table [TESTDB1] [dbo].[TPPDelvPrintDetail] `TESTDB1` `TPPDelvPrintDetail`   [Seq], [DelvPrtSeq], [InboxSeq] --table [TESTDB1] [dbo].[TCTPgmSecu] `TESTDB1` `TCTPgmSecu`   [Seq], [PgmSeq], [UserSeq], CAST([SecuSave] as NCHAR(1)) as [SecuSave], CAST([SecuDel] as NCHAR(1)) as [SecuDel], CAST([SecuQry] as NCHAR(1)) as [SecuQry] --table [TESTDB1] [dbo].[TPDPackingM] `TESTDB1` `TPDPackingM`   [Seq], [ItemSeq], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([RevNo] as NVARCHAR(10)) as [RevNo], CAST([SerialNo] as NCHAR(4)) as [SerialNo], CAST([PackingDate] as NCHAR(8)) as [PackingDate], [Qty], CAST([Insp1] as NVARCHAR(10)) as [Insp1], CAST([Insp2] as NVARCHAR(10)) as [Insp2], CAST([Insp3] as NVARCHAR(10)) as [Insp3], CAST([Insp4] as NVARCHAR(10)) as [Insp4], [Vender], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TPPDelvPrint_DELHIS] `TESTDB1` `TPPDelvPrint_DELHIS`   [Seq], CAST([Serl] as NCHAR(4)) as [Serl], [WIPSeq], [CustSeq], [ItemSeq], [UnitSeq], CAST([DelvDate] as NCHAR(8)) as [DelvDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo], CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [Qty], [EmpSeq], CAST([ProcessYN] as NCHAR(1)) as [ProcessYN], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TDIQC] `TESTDB1` `TDIQC` [Seq] `Seq` [Seq], [POSeq], [ItemSeq], CAST([IQCDate] as NCHAR(8)) as [IQCDate], CAST([IQCEmp] as NVARCHAR(50)) as [IQCEmp], [QtyInPut], [QCQty], [NGQty], [OKQty], [OutBoxSeq] --table [TESTDB1] [dbo].[TDAMajorTitle] `TESTDB1` `TDAMajorTitle`   [Seq], [MajorSeq], [TitCol], [TitleNm], [DicSeq] --table [TESTDB1] [dbo].[TPPDelvPrintReDetail] `TESTDB1` `TPPDelvPrintReDetail`   [Seq], [DelvPrtSeq], [InboxSeq] --table [TESTDB1] [dbo].[TPDAuto_FT2_In] `TESTDB1` `TPDAuto_FT2_In` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TUGDelvPrintDetail] `TESTDB1` `TUGDelvPrintDetail`   [Seq], [DelvPrtSeq], [OutboxSeq] --table [TESTDB1] [dbo].[TMIDelvPrintDetail] `TESTDB1` `TMIDelvPrintDetail`   [Seq], [DelvPrtSeq], [OutboxSeq] --table [TESTDB1] [dbo].[TLBLabelConvert] `TESTDB1` `TLBLabelConvert`   [Seq], CAST([LabelID] as NVARCHAR(50)) as [LabelID], CAST([OutboxYN] as NCHAR(1)) as [OutboxYN], CAST([Location] as NCHAR(2)) as [Location], [InputDate], [EmpSeq] --table [TESTDB1] [dbo].[TRWInboxHis] `TESTDB1` `TRWInboxHis`   [InboxSeq], CAST([Serl] as NCHAR(3)) as [Serl], CAST([InboxID] as NVARCHAR(100)) as [InboxID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], [RWTimes], [RWDate], [RWEmpSeq], CAST([RWAct] as NVARCHAR(10)) as [RWAct], [InputEmp] --table [TESTDB1] [dbo].[THIPOTHistory] `TESTDB1` `THIPOTHistory`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [DateTime] --table [TESTDB1] [dbo].[TScrap] `TESTDB1` `TScrap`   CAST([Label] as NVARCHAR(100)) as [Label], CAST([CheckInDate] as NCHAR(8)) as [CheckInDate], [CheckInEmpSeq], CAST([ConfirmYN] as NCHAR(1)) as [ConfirmYN], [ConfirmEmpSeq], CAST([CheckOutYN] as NCHAR(1)) as [CheckOutYN], CAST([CheckOutDate] as NCHAR(8)) as [CheckOutDate], [CheckOutEmpSeq] --table [TESTDB1] [dbo].[TPPProcessLabel] `TESTDB1` `TPPProcessLabel`   [Seq], CAST([Serl] as NCHAR(6)) as [Serl], CAST([ProcessID] as NVARCHAR(100)) as [ProcessID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [InputEmp], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl] --table [TESTDB1] [dbo].[TSADelv] `TESTDB1` `TSADelv`   [Seq], [CustSeq], [OutboxSeq], CAST([Delvdate] as NCHAR(8)) as [Delvdate], CAST([SONo] as NVARCHAR(100)) as [SONo], [EmpSeq], CAST([WHSeq] as NVARCHAR(10)) as [WHSeq], [OutboxID], CAST([MESYn] as NCHAR(1)) as [MESYn], [ItemSeq], [Qty], [ShipSeq] --table [TESTDB1] [dbo].[TDIQCDefect] `TESTDB1` `TDIQCDefect`   [Seq], [DefectSeq], [QtyInPut], CAST([ControlType] as NCHAR(1)) as [ControlType], [OutboxSeq] --table [TESTDB1] [dbo].[TPPInboxMst] `TESTDB1` `TPPInboxMst`   [Seq], [InboxType], [ControlSeq], [ItemSeq], [UnitSeq], [InboxQty], [Qty], [EmpSeq], CAST([WorkDate] as NCHAR(8)) as [WorkDate], CAST([LotNo] as NVARCHAR(100)) as [LotNo] --table [TESTDB1] [dbo].[TMIPOItem] `TESTDB1` `TMIPOItem`   [Seq], CAST([PONo] as NVARCHAR(50)) as [PONo], CAST([PODate] as NCHAR(8)) as [PODate], [CustSeq], [WOSeq], [POEmpSeq], [ItemSeq], [UnitSeq], CAST([Curr] as NVARCHAR(10)) as [Curr], [Qty], [Price], [Amt], CAST([ReqDate] as NCHAR(8)) as [ReqDate], CAST([PlaceType] as NVARCHAR(50)) as [PlaceType], [DelvPlace], [Remark], CAST([ERPKey] as NCHAR(4)) as [ERPKey] --table [TESTDB1] [dbo].[TPPDelvCheckKey_DHN] `TESTDB1` `TPPDelvCheckKey_DHN`   CAST([DelvNo] as NVARCHAR(100)) as [DelvNo], [RegTime], CAST([CK] as NCHAR(1)) as [CK] --table [TESTDB1] [dbo].[TCTVendorPassword] `TESTDB1` `TCTVendorPassword`   [Seq], [VendorSeq], [VendorPass], [EmpSeq] --table [TESTDB1] [dbo].[TDALotHold] `TESTDB1` `TDALotHold`   CAST([LabelID] as NVARCHAR(16)) as [LabelID], CAST([IsHold] as NCHAR(1)) as [IsHold], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate] --table [TESTDB1] [dbo].[TDAWC] `TESTDB1` `TDAWC`   [Seq], [WCNm], [WCNo], [DeptSeq], [StatusSeq], [UserDefine1], [UserDefine2], [UserDefine3], [UserDefine4], [UserDefine5], [Remark], CAST([ProcCd] as NCHAR(8)) as [ProcCd], CAST([ERPKey] as NCHAR(5)) as [ERPKey] --table [TESTDB1] [dbo].[TCTMenuSecu] `TESTDB1` `TCTMenuSecu`   [Seq], [UserSeq], [MenuSeq], CAST([SecuSave] as NCHAR(1)) as [SecuSave], CAST([SecuDel] as NCHAR(1)) as [SecuDel], CAST([SecuQry] as NCHAR(1)) as [SecuQry], CAST([UseYN] as NCHAR(1)) as [UseYN] --table [TESTDB1] [dbo].[TUGDelvPrintDetail_DELHIS] `TESTDB1` `TUGDelvPrintDetail_DELHIS`   [Seq], [DelvPrtSeq], [OutboxSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPPInboxRepackTemp] `TESTDB1` `TPPInboxRepackTemp`   [Seq], [InboxSeq], [RepackDate], [PackTime], CAST([FinishYN] as NCHAR(1)) as [FinishYN] --table [TESTDB1] [dbo].[TPPInspectionS] `TESTDB1` `TPPInspectionS`   [Seq], [MSeq], CAST([InspectSNo] as NVARCHAR(200)) as [InspectSNo], [InspectSNm], CAST([UseYN] as NCHAR(1)) as [UseYN], CAST([PQC] as NCHAR(1)) as [PQC], CAST([IQC] as NCHAR(1)) as [IQC], CAST([OQC] as NCHAR(1)) as [OQC], [Remark] --table [TESTDB1] [dbo].[TPDAuto_HIPOT_In] `TESTDB1` `TPDAuto_HIPOT_In` [Seq] `Seq` [Seq], CAST([A] as NVARCHAR(200)) as [A], CAST([B] as NVARCHAR(100)) as [B], CAST([C] as NVARCHAR(100)) as [C], CAST([D] as NVARCHAR(100)) as [D], CAST([E] as NVARCHAR(100)) as [E], CAST([F] as NVARCHAR(100)) as [F], CAST([G] as NVARCHAR(100)) as [G], CAST([H] as NVARCHAR(100)) as [H], CAST([I] as NVARCHAR(100)) as [I], CAST([J] as NVARCHAR(100)) as [J], CAST([K] as NVARCHAR(100)) as [K], CAST([L] as NVARCHAR(100)) as [L], CAST([M] as NVARCHAR(100)) as [M], CAST([N] as NVARCHAR(100)) as [N], CAST([O] as NVARCHAR(100)) as [O], CAST([P] as NVARCHAR(100)) as [P], CAST([Q] as NVARCHAR(100)) as [Q], CAST([R] as NVARCHAR(100)) as [R], CAST([S] as NVARCHAR(100)) as [S], CAST([T] as NVARCHAR(100)) as [T], CAST([U] as NVARCHAR(100)) as [U], CAST([V] as NVARCHAR(100)) as [V], CAST([W] as NVARCHAR(100)) as [W], CAST([X] as NVARCHAR(100)) as [X], CAST([Y] as NVARCHAR(100)) as [Y], CAST([Z] as NVARCHAR(100)) as [Z], CAST([AA] as NVARCHAR(100)) as [AA], CAST([AB] as NVARCHAR(100)) as [AB], CAST([AC] as NVARCHAR(100)) as [AC], CAST([AD] as NVARCHAR(100)) as [AD], CAST([AE] as NVARCHAR(100)) as [AE], CAST([AF] as NVARCHAR(100)) as [AF], CAST([AG] as NVARCHAR(100)) as [AG], CAST([AH] as NVARCHAR(100)) as [AH], CAST([AI] as NVARCHAR(100)) as [AI], CAST([AJ] as NVARCHAR(100)) as [AJ], CAST([AK] as NVARCHAR(100)) as [AK], CAST([AL] as NVARCHAR(100)) as [AL], CAST([AM] as NVARCHAR(100)) as [AM], CAST([AN] as NVARCHAR(100)) as [AN], CAST([AO] as NVARCHAR(100)) as [AO], CAST([AP] as NVARCHAR(100)) as [AP], CAST([AQ] as NVARCHAR(100)) as [AQ], CAST([AR] as NVARCHAR(100)) as [AR], CAST([AS] as NVARCHAR(100)) as [AS], CAST([AT] as NVARCHAR(100)) as [AT], CAST([AU] as NVARCHAR(100)) as [AU], CAST([AV] as NVARCHAR(100)) as [AV], CAST([AW] as NVARCHAR(100)) as [AW], CAST([AX] as NVARCHAR(100)) as [AX], CAST([AY] as NVARCHAR(100)) as [AY], CAST([AZ] as NVARCHAR(100)) as [AZ], CAST([PathString] as NVARCHAR(500)) as [PathString], [UpDateTime] --table [TESTDB1] [dbo].[TDAInventory] `TESTDB1` `TDAInventory`   [Seq], CAST([BarCodeID] as NVARCHAR(50)) as [BarCodeID], [ItemSeq], CAST([MesYn] as NCHAR(1)) as [MesYn], CAST([LabelType] as NVARCHAR(50)) as [LabelType], [Qty], [Remark], [WHSeq], [EmpSeq], CAST([InvDate] as NCHAR(8)) as [InvDate], CAST([InvMonth] as NCHAR(6)) as [InvMonth], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev] --table [TESTDB1] [dbo].[TMIDelvPrintDetail_DELHIS] `TESTDB1` `TMIDelvPrintDetail_DELHIS`   [Seq], [DelvPrtSeq], [OutboxSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TICTHistory] `TESTDB1` `TICTHistory`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], [C90V_Min_13_2Vout_volt], [C90V_Max_13_2Vout_volt], [C264V_Min_13_2Vout_volt], [C264V_Max_13_2Vout_volt], [C220V_Min_13_2Vout_volt], [C220V_Max_13_2Vout_volt], [C220V_Typ_LED_volt], [C220V_Typ_LED_Curr], [C220V_Typ_DIM_Curr], [C230V_DPM], [C220V_Set_start_13_2Vout_volt], [C220V_Set_oprating_13_2Vout_volt], [C220V_Set_end_13_2Vout_volt], [C220V_Set_LED_volt], [CDischargevolt], CAST([judge] as NVARCHAR(100)) as [judge], [DateTime] --table [TESTDB1] [dbo].[TPPProcessLabel_DELHIS] `TESTDB1` `TPPProcessLabel_DELHIS`   [Seq], CAST([Serl] as NCHAR(6)) as [Serl], CAST([ProcessID] as NVARCHAR(100)) as [ProcessID], CAST([LotNo] as NVARCHAR(50)) as [LotNo], CAST([POType] as NVARCHAR(50)) as [POType], [SupSeq], [ItemSeq], [UnitSeq], [Qty], [InboxQty], [OutboxQty], CAST([Workdate] as NCHAR(8)) as [Workdate], CAST([MoldRev] as NVARCHAR(10)) as [MoldRev], CAST([ShiftSeq] as NVARCHAR(10)) as [ShiftSeq], [EmpSeq], CAST([ControlType] as NCHAR(1)) as [ControlType], [ControlSeq], [InputEmp], CAST([StrTime] as NCHAR(4)) as [StrTime], CAST([EndTime] as NCHAR(4)) as [EndTime], CAST([WorkerNum] as BIGINT) as [WorkerNum], CAST([ERPSerl] as NCHAR(4)) as [ERPSerl], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[TPDHistory_HIPOT] `TESTDB1` `TPDHistory_HIPOT`   [Seq], CAST([SerialNo] as NVARCHAR(100)) as [SerialNo], CAST([B] as NVARCHAR(100)) as [B], [C], [D], [DateTime] --table [TESTDB1] [dbo].[TPPDelvWH_log] `TESTDB1` `TPPDelvWH_log`   CAST([DelvNo] as NVARCHAR(50)) as [DelvNo], CAST([WHCd] as NCHAR(2)) as [WHCd], CAST([InDate] as NCHAR(8)) as [InDate], CAST([GoodInNo] as NVARCHAR(20)) as [GoodInNo], CAST([EmpId] as NCHAR(8)) as [EmpId], [UserSeq], CAST([Tag] as NCHAR(1)) as [Tag], [ExTime] --table [TESTDB1] [dbo].[WCRegD] `TESTDB1` `WCRegD` [Seq] `Seq` [Seq], [WCNoM], [WCNameM], [WCNameE], [WCNoE], [StandardWorkCode], [Remark] --table [TESTDB1] [dbo].[TDANumChar] `TESTDB1` `TDANumChar`   [Num], CAST([NumChar] as NVARCHAR(10)) as [NumChar] --table [TESTDB1] [dbo].[TPPWorkreportWIPDefect_DELHIS] `TESTDB1` `TPPWorkreportWIPDefect_DELHIS`   [Seq], [WIPSeq], [DefectSeq], CAST([NGQty] as BIGINT) as [NGQty], [WOSeq], [DelDate], [DelEmpSeq] --table [TESTDB1] [dbo].[THNTCustItem] `TESTDB1` `THNTCustItem`   [Seq], CAST([CustItemCd] as NCHAR(6)) as [CustItemCd], CAST([CustMatCode] as NVARCHAR(50)) as [CustMatCode], [CustItemNm], [CustSpec], [CustModeNm], [InboxQty], [OutboxQty], CAST([ERPItemCd] as NCHAR(6)) as [ERPItemCd], [RegEmpSeq], [RegDate], [UptEmpSeq], [UptDate]
+00:12:59 [INF][      copytable]: Connecting to MySQL server at 127.0.0.1:3306 with user root
+
+00:12:59 [INF][      copytable]: Connection to MySQL opened
+
+00:12:59 [INF][      copytable]: Opening ODBC connection to [Mssql] 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=XXX'
+
+00:12:59 [INF][      copytable]: ODBC connection to 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=' opened
+
+00:12:59 [INF][      copytable]: Connecting to MySQL server at 127.0.0.1:3306 with user root
+
+00:12:59 [INF][      copytable]: Connection to MySQL opened
+
+00:12:59 [INF][      copytable]: Opening ODBC connection to [Mssql] 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=XXX'
+
+`TESTDB1`.`TDAItemRev`:Copying 6 columns of 6 rows from table [TESTDB1].[dbo].[TDAItemRev]
+00:12:59 [INF][      copytable]: ODBC connection to 'DRIVER={FreeTDS};SERVER=127.0.0.1;PORT=1433;DATABASE=;UID=sa;;TDS_VERSION=7.1;PWD=' opened
+
+00:12:59 [INF][      copytable]: Connecting to MySQL server at 127.0.0.1:3306 with user root
+
+00:12:59 [INF][      copytable]: Connection to MySQL opened
+
+`TESTDB1`.`TDAItemRev`:Finished copying 6 rows in 0m00s
+`TESTDB1`.`TMT`:Copying 10 columns of 3 rows from table [TESTDB1].[dbo].[TMT]
+`TESTDB1`.`TMTHistory`:Copying 11 columns of 6 rows from table [TESTDB1].[dbo].[TMTHistory]
+`TESTDB1`.`TMTHistory`:Finished copying 6 rows in 0m01s
+`TESTDB1`.`TPPDelvPrintDetail_DELHIS`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrintDetail_DELHIS]
+`TESTDB1`.`TPPDelvPrintDetail_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMT`:Finished copying 3 rows in 0m01s
+`TESTDB1`.`TPPOQC`:Copying 10 columns of 0 rows from table [TESTDB1].[dbo].[TPPOQC]
+`TESTDB1`.`TPPOQC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDOQCReq`:Copying 8 columns of 1 rows from table [TESTDB1].[dbo].[TPDOQCReq]
+`TESTDB1`.`TMIDelvPrint`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[TMIDelvPrint]
+`TESTDB1`.`TMIDelvPrint`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvWH`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvWH]
+`TESTDB1`.`TPDOQCReq`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPDelvWH`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTModule`:Copying 7 columns of 1 rows from table [TESTDB1].[dbo].[TCTModule]
+`TESTDB1`.`TDADept`:Copying 5 columns of 1 rows from table [TESTDB1].[dbo].[TDADept]
+`TESTDB1`.`TCTModule`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPOutboxLabel`:Copying 15 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxLabel]
+`TESTDB1`.`TDADept`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPOutboxLabel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxLabel_DELHIS`:Copying 24 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxLabel_DELHIS]
+`TESTDB1`.`TDOQCDetail`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TDOQCDetail]
+`TESTDB1`.`TPPInboxLabel_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDOQCDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvCheckKey`:Copying 2 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvCheckKey]
+`TESTDB1`.`TPPDelvCheckKey`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxDelvRe`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxDelvRe]
+`TESTDB1`.`TPPOutboxDelvRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAOrg`:Copying 6 columns of 1 rows from table [TESTDB1].[dbo].[TDAOrg]
+`TESTDB1`.`TDAWH`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TDAWH]
+`TESTDB1`.`TDAWH`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTDictionary`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TCTDictionary]
+`TESTDB1`.`TCTDictionary`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTProcess`:Copying 9 columns of 3 rows from table [TESTDB1].[dbo].[TCTProcess]
+`TESTDB1`.`TDAOrg`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPDOQCSerial`:Copying 11 columns of 2 rows from table [TESTDB1].[dbo].[TPDOQCSerial]
+00:13:00 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xF4ng ti...' for column 'ProcessNm' at row 2:
+
+ERROR: `TESTDB1`.`TCTProcess`:Inserting Data: Incorrect string value: '\xF4ng ti...' for column 'ProcessNm' at row 2
+ERROR: `TESTDB1`.`TCTProcess`:Failed copying 3 rows
+`TESTDB1`.`TPDRepairReq`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TPDRepairReq]
+`TESTDB1`.`TPDRepairReq`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDOQCSerial`:Finished copying 2 rows in 0m00s
+`TESTDB1`.`TPPOQCDefect`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPOQCDefect]
+`TESTDB1`.`TPPOQCDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_FT1_Out`:Copying 55 columns of 81628 rows from table [TESTDB1].[dbo].[TPDAuto_FT1_Out]
+`TESTDB1`.`TDAEmpMaster`:Copying 147 columns of 1 rows from table [TESTDB1].[dbo].[TDAEmpMaster]
+`TESTDB1`.`TDAEmpMaster`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPOutboxDetail`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxDetail]
+`TESTDB1`.`TPPOutboxDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDHold`:Copying 13 columns of 1 rows from table [TESTDB1].[dbo].[TPDHold]
+`TESTDB1`.`TPDHold`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPDAuto_FT2_Out`:Copying 55 columns of 44272 rows from table [TESTDB1].[dbo].[TPDAuto_FT2_Out]
+`TESTDB1`.`TPDAuto_FT2_Out`:Finished copying 44272 rows in 0m09s
+`TESTDB1`.`TDOQCDefect`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TDOQCDefect]
+`TESTDB1`.`TDOQCDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAErrorMsg`:Copying 4 columns of 38 rows from table [TESTDB1].[dbo].[TDAErrorMsg]
+00:13:09 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xF4ng t?...' for column 'MsgName' at row 3:
+
+ERROR: `TESTDB1`.`TDAErrorMsg`:Inserting Data: Incorrect string value: '\xF4ng t?...' for column 'MsgName' at row 3
+ERROR: `TESTDB1`.`TDAErrorMsg`:Failed copying 38 rows
+`TESTDB1`.`TPDScrapCfr`:Copying 9 columns of 0 rows from table [TESTDB1].[dbo].[TPDScrapCfr]
+`TESTDB1`.`TPDScrapCfr`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDLabelSerial`:Copying 11 columns of 55 rows from table [TESTDB1].[dbo].[TPDLabelSerial]
+`TESTDB1`.`TPDLabelSerial`:Finished copying 55 rows in 0m00s
+`TESTDB1`.`TPDRepair`:Copying 11 columns of 1 rows from table [TESTDB1].[dbo].[TPDRepair]
+`TESTDB1`.`TPDRepair`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPMESWIPDelvNo_MES`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES]
+`TESTDB1`.`TPPMESWIPDelvNo_MES`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPMatchCheck`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPMatchCheck]
+`TESTDB1`.`TPPMatchCheck`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAMold`:Copying 12 columns of 0 rows from table [TESTDB1].[dbo].[TDAMold]
+`TESTDB1`.`TDAMold`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TICT`:Copying 18 columns of 66 rows from table [TESTDB1].[dbo].[TICT]
+`TESTDB1`.`TICT`:Finished copying 66 rows in 0m00s
+`TESTDB1`.`TPPWorkreportWIP`:Copying 26 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkreportWIP]
+`TESTDB1`.`TPPWorkreportWIP`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWorkReportWIP_DelLog`:Copying 28 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkReportWIP_DelLog]
+`TESTDB1`.`TPPWorkReportWIP_DelLog`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAUnit`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TDAUnit]
+`TESTDB1`.`TDAUnit`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TUGDelv`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TUGDelv]
+`TESTDB1`.`TUGDelv`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPEQCDefect_DELHIS`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TPEQCDefect_DELHIS]
+`TESTDB1`.`TPEQCDefect_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMIDelv`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TMIDelv]
+`TESTDB1`.`TMIDelv`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxDelv`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxDelv]
+`TESTDB1`.`TPPOutboxDelv`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxLabelRe`:Copying 16 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxLabelRe]
+`TESTDB1`.`TPPOutboxLabelRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`Student`:Copying 3 columns of 2 rows from table [TESTDB1].[dbo].[Student]
+`TESTDB1`.`Student`:Finished copying 2 rows in 0m00s
+`TESTDB1`.`TDAMinor`:Copying 20 columns of 740 rows from table [TESTDB1].[dbo].[TDAMinor]
+00:13:09 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xE0ng h\xF3...' for column 'MinorNm' at row 10:
+
+ERROR: `TESTDB1`.`TDAMinor`:Inserting Data: Incorrect string value: '\xE0ng h\xF3...' for column 'MinorNm' at row 10
+ERROR: `TESTDB1`.`TDAMinor`:Failed copying 740 rows
+`TESTDB1`.`TPDScrap`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TPDScrap]
+`TESTDB1`.`TPDScrap`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPMESWIPDelvNo_MES_TEST`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_TEST]
+`TESTDB1`.`TPPMESWIPDelvNo_MES_TEST`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TFTHistory`:Copying 21 columns of 119 rows from table [TESTDB1].[dbo].[TFTHistory]
+`TESTDB1`.`TFTHistory`:Finished copying 119 rows in 0m00s
+`TESTDB1`.`TDAMoldModel`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TDAMoldModel]
+`TESTDB1`.`TDAMoldModel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxDetail_DELHIS`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxDetail_DELHIS]
+`TESTDB1`.`TPPOutboxDetail_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxRepackHis`:Copying 21 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxRepackHis]
+`TESTDB1`.`TPPInboxRepackHis`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_HIPOT_Out`:Copying 55 columns of 239788 rows from table [TESTDB1].[dbo].[TPDAuto_HIPOT_Out]
+`TESTDB1`.`TPDAuto_FT1_Out`:Finished copying 81628 rows in 0m17s
+`TESTDB1`.`TRWOutboxDetailHis`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TRWOutboxDetailHis]
+`TESTDB1`.`TRWOutboxDetailHis`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWConfirm`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TRWConfirm]
+`TESTDB1`.`TRWConfirm`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDASpNM`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TDASpNM]
+`TESTDB1`.`TDASpNM`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvPrint`:Copying 12 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrint]
+`TESTDB1`.`TPPDelvPrint`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPSPMStdReg`:Copying 16 columns of 0 rows from table [TESTDB1].[dbo].[TPPSPMStdReg]
+`TESTDB1`.`TPPSPMStdReg`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxLabel`:Copying 22 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxLabel]
+`TESTDB1`.`TPPInboxLabel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxDetailRe`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxDetailRe]
+`TESTDB1`.`TPPOutboxDetailRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDADevice`:Copying 14 columns of 15 rows from table [TESTDB1].[dbo].[TDADevice]
+`TESTDB1`.`TDADevice`:Finished copying 15 rows in 0m00s
+`TESTDB1`.`TPPVILabel`:Copying 12 columns of 0 rows from table [TESTDB1].[dbo].[TPPVILabel]
+`TESTDB1`.`TPPVILabel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDHisory_ICT`:Copying 19 columns of 0 rows from table [TESTDB1].[dbo].[TPDHisory_ICT]
+`TESTDB1`.`TPDHisory_ICT`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAItem`:Copying 27 columns of 8 rows from table [TESTDB1].[dbo].[TDAItem]
+`TESTDB1`.`TDAItem`:Finished copying 8 rows in 0m00s
+`TESTDB1`.`TPPInboxLabelRe`:Copying 23 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxLabelRe]
+`TESTDB1`.`TPPInboxLabelRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWOutboxDelv`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TRWOutboxDelv]
+`TESTDB1`.`TRWOutboxDelv`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDATableD`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TDATableD]
+`TESTDB1`.`TDATableD`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxDst`:Copying 4 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxDst]
+`TESTDB1`.`TPPInboxDst`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPEQC_DELHIS`:Copying 14 columns of 0 rows from table [TESTDB1].[dbo].[TPEQC_DELHIS]
+`TESTDB1`.`TPEQC_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTLanguage`:Copying 2 columns of 3 rows from table [TESTDB1].[dbo].[TCTLanguage]
+`TESTDB1`.`TCTLanguage`:Finished copying 3 rows in 0m00s
+`TESTDB1`.`TPPOutboxRepackHis`:Copying 18 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxRepackHis]
+`TESTDB1`.`TPPOutboxRepackHis`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWOCheckInOut`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TPPWOCheckInOut]
+`TESTDB1`.`TPPWOCheckInOut`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDATableM`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TDATableM]
+`TESTDB1`.`TDATableM`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMIDelvPrint_DELHIS`:Copying 15 columns of 0 rows from table [TESTDB1].[dbo].[TMIDelvPrint_DELHIS]
+`TESTDB1`.`TMIDelvPrint_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWorkOrder`:Copying 15 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkOrder]
+`TESTDB1`.`TPPWorkOrder`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDATableRefer`:Copying 4 columns of 0 rows from table [TESTDB1].[dbo].[TDATableRefer]
+`TESTDB1`.`TDATableRefer`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxRepackHisDetail`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxRepackHisDetail]
+`TESTDB1`.`TPPOutboxRepackHisDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDOQC`:Copying 10 columns of 0 rows from table [TESTDB1].[dbo].[TDOQC]
+`TESTDB1`.`TDOQC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDASpNMD`:Copying 4 columns of 0 rows from table [TESTDB1].[dbo].[TDASpNMD]
+`TESTDB1`.`TDASpNMD`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTGetERPDataLogs`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TCTGetERPDataLogs]
+`TESTDB1`.`TCTGetERPDataLogs`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWorkOrderNG`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkOrderNG]
+`TESTDB1`.`TPPWorkOrderNG`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDIQCDetail`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TDIQCDetail]
+`TESTDB1`.`TDIQCDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWInputOutbox`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TRWInputOutbox]
+`TESTDB1`.`TRWInputOutbox`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_FT1_In`:Copying 55 columns of 105 rows from table [TESTDB1].[dbo].[TPDAuto_FT1_In]
+`TESTDB1`.`TPDAuto_FT1_In`:Finished copying 105 rows in 0m00s
+`TESTDB1`.`TPPLaserStdReg`:Copying 17 columns of 0 rows from table [TESTDB1].[dbo].[TPPLaserStdReg]
+`TESTDB1`.`TPPLaserStdReg`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPSMDStdReg`:Copying 17 columns of 0 rows from table [TESTDB1].[dbo].[TPPSMDStdReg]
+`TESTDB1`.`TPPSMDStdReg`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAYMDMap`:Copying 3 columns of 55 rows from table [TESTDB1].[dbo].[TDAYMDMap]
+`TESTDB1`.`TDAYMDMap`:Finished copying 55 rows in 0m00s
+`TESTDB1`.`TCTMenu`:Copying 8 columns of 148 rows from table [TESTDB1].[dbo].[TCTMenu]
+`TESTDB1`.`TCTMenu`:Finished copying 148 rows in 0m00s
+`TESTDB1`.`TPPInboxRepackSep`:Copying 4 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxRepackSep]
+`TESTDB1`.`TPPInboxRepackSep`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTPgm`:Copying 14 columns of 148 rows from table [TESTDB1].[dbo].[TCTPgm]
+00:13:17 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xFD ch??...' for column 'PgmNm' at row 1:
+
+ERROR: `TESTDB1`.`TCTPgm`:Inserting Data: Incorrect string value: '\xFD ch??...' for column 'PgmNm' at row 1
+ERROR: `TESTDB1`.`TCTPgm`:Failed copying 148 rows
+`TESTDB1`.`THNTLabelDetail`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[THNTLabelDetail]
+`TESTDB1`.`THNTLabelDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDResult_ICT`:Copying 18 columns of 0 rows from table [TESTDB1].[dbo].[TPDResult_ICT]
+`TESTDB1`.`TPDResult_ICT`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPEQC`:Copying 11 columns of 0 rows from table [TESTDB1].[dbo].[TPEQC]
+`TESTDB1`.`TPEQC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDItemProc`:Copying 42 columns of 0 rows from table [TESTDB1].[dbo].[TPDItemProc]
+`TESTDB1`.`TPDItemProc`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDBOM`:Copying 11 columns of 0 rows from table [TESTDB1].[dbo].[TPDBOM]
+`TESTDB1`.`TPDBOM`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TUGIQCDefect`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TUGIQCDefect]
+`TESTDB1`.`TUGIQCDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWorkreportWIPDefect`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkreportWIPDefect]
+`TESTDB1`.`TPPWorkreportWIPDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPCOATStdReg`:Copying 19 columns of 0 rows from table [TESTDB1].[dbo].[TPPCOATStdReg]
+`TESTDB1`.`TPPCOATStdReg`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInspectionL`:Copying 4 columns of 16 rows from table [TESTDB1].[dbo].[TPPInspectionL]
+00:13:17 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xE1p/ K?...' for column 'InspectLNm' at row 6:
+
+ERROR: `TESTDB1`.`TPPInspectionL`:Inserting Data: Incorrect string value: '\xE1p/ K?...' for column 'InspectLNm' at row 6
+ERROR: `TESTDB1`.`TPPInspectionL`:Failed copying 16 rows
+`TESTDB1`.`TPPMESWIPDelvNo_MES_DUP`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_DUP]
+`TESTDB1`.`TPPMESWIPDelvNo_MES_DUP`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_MT_In`:Copying 55 columns of 79 rows from table [TESTDB1].[dbo].[TPDAuto_MT_In]
+`TESTDB1`.`TPDAuto_MT_In`:Finished copying 79 rows in 0m00s
+`TESTDB1`.`TUGIQC`:Copying 10 columns of 0 rows from table [TESTDB1].[dbo].[TUGIQC]
+`TESTDB1`.`TUGIQC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDSerialResult`:Copying 44 columns of 13 rows from table [TESTDB1].[dbo].[TPDSerialResult]
+`TESTDB1`.`TPDSerialResult`:Finished copying 13 rows in 0m00s
+`TESTDB1`.`TDAWCDevice`:Copying 2 columns of 0 rows from table [TESTDB1].[dbo].[TDAWCDevice]
+`TESTDB1`.`TDAWCDevice`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`WCRegM`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[WCRegM]
+`TESTDB1`.`WCRegM`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`THNTProductYMD`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[THNTProductYMD]
+`TESTDB1`.`THNTProductYMD`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPMESWIPDelvNo_MES_LOG`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_LOG]
+`TESTDB1`.`TPPMESWIPDelvNo_MES_LOG`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWInboxHisMap`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TRWInboxHisMap]
+`TESTDB1`.`TRWInboxHisMap`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPOutboxLabel_DELHIS`:Copying 17 columns of 0 rows from table [TESTDB1].[dbo].[TPPOutboxLabel_DELHIS]
+`TESTDB1`.`TPPOutboxLabel_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`THIPOT`:Copying 5 columns of 28 rows from table [TESTDB1].[dbo].[THIPOT]
+`TESTDB1`.`THIPOT`:Finished copying 28 rows in 0m00s
+`TESTDB1`.`TUGIQCDetail`:Copying 9 columns of 0 rows from table [TESTDB1].[dbo].[TUGIQCDetail]
+`TESTDB1`.`TUGIQCDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDHistory_MT`:Copying 11 columns of 6 rows from table [TESTDB1].[dbo].[TPDHistory_MT]
+`TESTDB1`.`TPDHistory_MT`:Finished copying 6 rows in 0m00s
+`TESTDB1`.`TCTUser`:Copying 15 columns of 2 rows from table [TESTDB1].[dbo].[TCTUser]
+`TESTDB1`.`TCTUser`:Finished copying 2 rows in 0m00s
+`TESTDB1`.`TPDResult_MT`:Copying 10 columns of 3 rows from table [TESTDB1].[dbo].[TPDResult_MT]
+`TESTDB1`.`TPDResult_MT`:Finished copying 3 rows in 0m00s
+`TESTDB1`.`TUGDelvPrint`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[TUGDelvPrint]
+`TESTDB1`.`TUGDelvPrint`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDResult_HIPOT`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPDResult_HIPOT]
+`TESTDB1`.`TPDResult_HIPOT`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TFT`:Copying 20 columns of 28 rows from table [TESTDB1].[dbo].[TFT]
+`TESTDB1`.`TFT`:Finished copying 28 rows in 0m00s
+`TESTDB1`.`TRWInputInbox`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TRWInputInbox]
+`TESTDB1`.`TRWInputInbox`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDASpRefer`:Copying 4 columns of 0 rows from table [TESTDB1].[dbo].[TDASpRefer]
+`TESTDB1`.`TDASpRefer`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvPrintRe`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrintRe]
+`TESTDB1`.`TPPDelvPrintRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPWorkreportWIP_DELHIS`:Copying 28 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkreportWIP_DELHIS]
+`TESTDB1`.`TPPWorkreportWIP_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPMESWIPDelvNo_MES_DELHIS`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TPPMESWIPDelvNo_MES_DELHIS]
+`TESTDB1`.`TPPMESWIPDelvNo_MES_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWOutboxHis`:Copying 19 columns of 0 rows from table [TESTDB1].[dbo].[TRWOutboxHis]
+`TESTDB1`.`TRWOutboxHis`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInspectionM`:Copying 5 columns of 39 rows from table [TESTDB1].[dbo].[TPPInspectionM]
+00:13:17 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xE1p/ K?...' for column 'InspectMNm' at row 4:
+
+ERROR: `TESTDB1`.`TPPInspectionM`:Inserting Data: Incorrect string value: '\xE1p/ K?...' for column 'InspectMNm' at row 4
+ERROR: `TESTDB1`.`TPPInspectionM`:Failed copying 39 rows
+`TESTDB1`.`TPPOQCDetail`:Copying 9 columns of 0 rows from table [TESTDB1].[dbo].[TPPOQCDetail]
+`TESTDB1`.`TPPOQCDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`THNTLabel`:Copying 16 columns of 0 rows from table [TESTDB1].[dbo].[THNTLabel]
+`TESTDB1`.`THNTLabel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPMatchCheckRe`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPPMatchCheckRe]
+`TESTDB1`.`TPPMatchCheckRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDPackingD`:Copying 8 columns of 2 rows from table [TESTDB1].[dbo].[TPDPackingD]
+`TESTDB1`.`TPDPackingD`:Finished copying 2 rows in 0m00s
+`TESTDB1`.`TPDAuto_MT_Out`:Copying 55 columns of 147632 rows from table [TESTDB1].[dbo].[TPDAuto_MT_Out]
+`TESTDB1`.`TPDAuto_MT_Out`:Finished copying 147632 rows in 0m27s
+`TESTDB1`.`TUGPOItem`:Copying 16 columns of 0 rows from table [TESTDB1].[dbo].[TUGPOItem]
+`TESTDB1`.`TUGPOItem`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPEGoodIn`:Copying 33 columns of 0 rows from table [TESTDB1].[dbo].[TPEGoodIn]
+`TESTDB1`.`TPEGoodIn`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTOrgPgm`:Copying 7 columns of 1481 rows from table [TESTDB1].[dbo].[TCTOrgPgm]
+`TESTDB1`.`TCTOrgPgm`:Finished copying 1481 rows in 0m00s
+`TESTDB1`.`TDAMoldRev`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TDAMoldRev]
+`TESTDB1`.`TDAMoldRev`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPEQCDefect`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPEQCDefect]
+`TESTDB1`.`TPEQCDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAMajor`:Copying 12 columns of 71 rows from table [TESTDB1].[dbo].[TDAMajor]
+`TESTDB1`.`TDAMajor`:Finished copying 71 rows in 0m00s
+`TESTDB1`.`TDACust`:Copying 17 columns of 0 rows from table [TESTDB1].[dbo].[TDACust]
+`TESTDB1`.`TDACust`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TUGDelvPrint_DELHIS`:Copying 15 columns of 0 rows from table [TESTDB1].[dbo].[TUGDelvPrint_DELHIS]
+`TESTDB1`.`TUGDelvPrint_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPVILabelRe`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[TPPVILabelRe]
+`TESTDB1`.`TPPVILabelRe`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAItemScale`:Copying 27 columns of 0 rows from table [TESTDB1].[dbo].[TDAItemScale]
+`TESTDB1`.`TDAItemScale`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvPrintDetail`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrintDetail]
+`TESTDB1`.`TPPDelvPrintDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTPgmSecu`:Copying 6 columns of 46 rows from table [TESTDB1].[dbo].[TCTPgmSecu]
+`TESTDB1`.`TCTPgmSecu`:Finished copying 46 rows in 0m00s
+`TESTDB1`.`TPDPackingM`:Copying 16 columns of 1 rows from table [TESTDB1].[dbo].[TPDPackingM]
+`TESTDB1`.`TPDPackingM`:Finished copying 1 rows in 0m00s
+`TESTDB1`.`TPPDelvPrint_DELHIS`:Copying 14 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrint_DELHIS]
+`TESTDB1`.`TPPDelvPrint_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDIQC`:Copying 10 columns of 0 rows from table [TESTDB1].[dbo].[TDIQC]
+`TESTDB1`.`TDIQC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAMajorTitle`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TDAMajorTitle]
+`TESTDB1`.`TDAMajorTitle`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvPrintReDetail`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvPrintReDetail]
+`TESTDB1`.`TPPDelvPrintReDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_FT2_In`:Copying 55 columns of 101 rows from table [TESTDB1].[dbo].[TPDAuto_FT2_In]
+`TESTDB1`.`TPDAuto_FT2_In`:Finished copying 101 rows in 0m00s
+`TESTDB1`.`TUGDelvPrintDetail`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TUGDelvPrintDetail]
+`TESTDB1`.`TUGDelvPrintDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMIDelvPrintDetail`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TMIDelvPrintDetail]
+`TESTDB1`.`TMIDelvPrintDetail`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TLBLabelConvert`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TLBLabelConvert]
+`TESTDB1`.`TLBLabelConvert`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TRWInboxHis`:Copying 26 columns of 0 rows from table [TESTDB1].[dbo].[TRWInboxHis]
+`TESTDB1`.`TRWInboxHis`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`THIPOTHistory`:Copying 6 columns of 302 rows from table [TESTDB1].[dbo].[THIPOTHistory]
+`TESTDB1`.`THIPOTHistory`:Finished copying 302 rows in 0m00s
+`TESTDB1`.`TScrap`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TScrap]
+`TESTDB1`.`TScrap`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPProcessLabel`:Copying 22 columns of 0 rows from table [TESTDB1].[dbo].[TPPProcessLabel]
+`TESTDB1`.`TPPProcessLabel`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TSADelv`:Copying 12 columns of 0 rows from table [TESTDB1].[dbo].[TSADelv]
+`TESTDB1`.`TSADelv`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDIQCDefect`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TDIQCDefect]
+`TESTDB1`.`TDIQCDefect`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxMst`:Copying 10 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxMst]
+`TESTDB1`.`TPPInboxMst`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMIPOItem`:Copying 17 columns of 0 rows from table [TESTDB1].[dbo].[TMIPOItem]
+`TESTDB1`.`TMIPOItem`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvCheckKey_DHN`:Copying 3 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvCheckKey_DHN]
+`TESTDB1`.`TPPDelvCheckKey_DHN`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTVendorPassword`:Copying 4 columns of 1083 rows from table [TESTDB1].[dbo].[TCTVendorPassword]
+`TESTDB1`.`TCTVendorPassword`:Finished copying 1083 rows in 0m00s
+`TESTDB1`.`TDALotHold`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TDALotHold]
+`TESTDB1`.`TDALotHold`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDAWC`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[TDAWC]
+`TESTDB1`.`TDAWC`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TCTMenuSecu`:Copying 7 columns of 426 rows from table [TESTDB1].[dbo].[TCTMenuSecu]
+`TESTDB1`.`TCTMenuSecu`:Finished copying 426 rows in 0m00s
+`TESTDB1`.`TUGDelvPrintDetail_DELHIS`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TUGDelvPrintDetail_DELHIS]
+`TESTDB1`.`TUGDelvPrintDetail_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInboxRepackTemp`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TPPInboxRepackTemp]
+`TESTDB1`.`TPPInboxRepackTemp`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPInspectionS`:Copying 9 columns of 136 rows from table [TESTDB1].[dbo].[TPPInspectionS]
+00:13:44 [INF][      copytable]: Statement execution failed: Incorrect string value: '\xE0ng (?...' for column 'InspectSNm' at row 2:
+
+ERROR: `TESTDB1`.`TPPInspectionS`:Inserting Data: Incorrect string value: '\xE0ng (?...' for column 'InspectSNm' at row 2
+ERROR: `TESTDB1`.`TPPInspectionS`:Failed copying 136 rows
+`TESTDB1`.`TPDAuto_HIPOT_In`:Copying 55 columns of 260 rows from table [TESTDB1].[dbo].[TPDAuto_HIPOT_In]
+`TESTDB1`.`TPDAuto_HIPOT_In`:Finished copying 260 rows in 0m00s
+`TESTDB1`.`TDAInventory`:Copying 12 columns of 0 rows from table [TESTDB1].[dbo].[TDAInventory]
+`TESTDB1`.`TDAInventory`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TMIDelvPrintDetail_DELHIS`:Copying 5 columns of 0 rows from table [TESTDB1].[dbo].[TMIDelvPrintDetail_DELHIS]
+`TESTDB1`.`TMIDelvPrintDetail_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TICTHistory`:Copying 19 columns of 66 rows from table [TESTDB1].[dbo].[TICTHistory]
+`TESTDB1`.`TICTHistory`:Finished copying 66 rows in 0m00s
+`TESTDB1`.`TPPProcessLabel_DELHIS`:Copying 24 columns of 0 rows from table [TESTDB1].[dbo].[TPPProcessLabel_DELHIS]
+`TESTDB1`.`TPPProcessLabel_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDHistory_HIPOT`:Copying 6 columns of 0 rows from table [TESTDB1].[dbo].[TPDHistory_HIPOT]
+`TESTDB1`.`TPDHistory_HIPOT`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPPDelvWH_log`:Copying 8 columns of 0 rows from table [TESTDB1].[dbo].[TPPDelvWH_log]
+`TESTDB1`.`TPPDelvWH_log`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`WCRegD`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[WCRegD]
+`TESTDB1`.`WCRegD`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TDANumChar`:Copying 2 columns of 36 rows from table [TESTDB1].[dbo].[TDANumChar]
+`TESTDB1`.`TDANumChar`:Finished copying 36 rows in 0m00s
+`TESTDB1`.`TPPWorkreportWIPDefect_DELHIS`:Copying 7 columns of 0 rows from table [TESTDB1].[dbo].[TPPWorkreportWIPDefect_DELHIS]
+`TESTDB1`.`TPPWorkreportWIPDefect_DELHIS`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`THNTCustItem`:Copying 13 columns of 0 rows from table [TESTDB1].[dbo].[THNTCustItem]
+`TESTDB1`.`THNTCustItem`:Finished copying 0 rows in 0m00s
+`TESTDB1`.`TPDAuto_HIPOT_Out`:Finished copying 239788 rows in 0m41s
+00:13:50 [INF][      copytable]: Re-enabling triggers for schema 'TESTDB1'
+
+00:13:50 [INF][      copytable]: No triggers found for 'TESTDB1'
+
+FINISHED
+
+
+
+
+Copy helper has finished
+
+Data copy results:
+- `TESTDB1`.`TDAItemRev` has succeeded (6 of 6 rows copied)
+- `TESTDB1`.`TMT` has succeeded (3 of 3 rows copied)
+- `TESTDB1`.`TMTHistory` has succeeded (6 of 6 rows copied)
+- `TESTDB1`.`TPPDelvPrintDetail_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOQC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDOQCReq` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TMIDelvPrint` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvWH` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTModule` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TDADept` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TPPOutboxLabel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxLabel_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDOQCDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvCheckKey` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxDelvRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAOrg` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TDAWH` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTDictionary` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTProcess` has FAILED (0 of 3 rows copied)
+- `TESTDB1`.`TPDOQCSerial` has succeeded (2 of 2 rows copied)
+- `TESTDB1`.`TPDRepairReq` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDAuto_FT1_Out` has succeeded (81628 of 81628 rows copied)
+- `TESTDB1`.`TPPOQCDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAEmpMaster` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TPPOutboxDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDHold` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TPDAuto_FT2_Out` has succeeded (44272 of 44272 rows copied)
+- `TESTDB1`.`TDOQCDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAErrorMsg` has FAILED (0 of 38 rows copied)
+- `TESTDB1`.`TPDScrapCfr` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDLabelSerial` has succeeded (55 of 55 rows copied)
+- `TESTDB1`.`TPDRepair` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TPPMESWIPDelvNo_MES` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPMatchCheck` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAMold` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TICT` has succeeded (66 of 66 rows copied)
+- `TESTDB1`.`TPPWorkreportWIP` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWorkReportWIP_DelLog` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAUnit` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TUGDelv` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPEQCDefect_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TMIDelv` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxDelv` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxLabelRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`Student` has succeeded (2 of 2 rows copied)
+- `TESTDB1`.`TDAMinor` has FAILED (0 of 740 rows copied)
+- `TESTDB1`.`TPDScrap` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPMESWIPDelvNo_MES_TEST` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TFTHistory` has succeeded (119 of 119 rows copied)
+- `TESTDB1`.`TDAMoldModel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxDetail_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxRepackHis` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDAuto_HIPOT_Out` has succeeded (239788 of 239788 rows copied)
+- `TESTDB1`.`TRWOutboxDetailHis` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWConfirm` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDASpNM` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvPrint` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPSPMStdReg` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxLabel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxDetailRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDADevice` has succeeded (15 of 15 rows copied)
+- `TESTDB1`.`TPPVILabel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDHisory_ICT` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAItem` has succeeded (8 of 8 rows copied)
+- `TESTDB1`.`TPPInboxLabelRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWOutboxDelv` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDATableD` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxDst` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPEQC_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTLanguage` has succeeded (3 of 3 rows copied)
+- `TESTDB1`.`TPPOutboxRepackHis` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWOCheckInOut` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDATableM` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TMIDelvPrint_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWorkOrder` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDATableRefer` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxRepackHisDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDOQC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDASpNMD` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTGetERPDataLogs` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWorkOrderNG` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDIQCDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWInputOutbox` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDAuto_FT1_In` has succeeded (105 of 105 rows copied)
+- `TESTDB1`.`TPPLaserStdReg` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPSMDStdReg` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAYMDMap` has succeeded (55 of 55 rows copied)
+- `TESTDB1`.`TCTMenu` has succeeded (148 of 148 rows copied)
+- `TESTDB1`.`TPPInboxRepackSep` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTPgm` has FAILED (0 of 148 rows copied)
+- `TESTDB1`.`THNTLabelDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDResult_ICT` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPEQC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDItemProc` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDBOM` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TUGIQCDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWorkreportWIPDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPCOATStdReg` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInspectionL` has FAILED (0 of 16 rows copied)
+- `TESTDB1`.`TPPMESWIPDelvNo_MES_DUP` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDAuto_MT_In` has succeeded (79 of 79 rows copied)
+- `TESTDB1`.`TUGIQC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDSerialResult` has succeeded (13 of 13 rows copied)
+- `TESTDB1`.`TDAWCDevice` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`WCRegM` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`THNTProductYMD` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPMESWIPDelvNo_MES_LOG` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWInboxHisMap` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPOutboxLabel_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`THIPOT` has succeeded (28 of 28 rows copied)
+- `TESTDB1`.`TUGIQCDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDHistory_MT` has succeeded (6 of 6 rows copied)
+- `TESTDB1`.`TCTUser` has succeeded (2 of 2 rows copied)
+- `TESTDB1`.`TPDResult_MT` has succeeded (3 of 3 rows copied)
+- `TESTDB1`.`TUGDelvPrint` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDResult_HIPOT` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TFT` has succeeded (28 of 28 rows copied)
+- `TESTDB1`.`TRWInputInbox` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDASpRefer` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvPrintRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPWorkreportWIP_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPMESWIPDelvNo_MES_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWOutboxHis` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInspectionM` has FAILED (0 of 39 rows copied)
+- `TESTDB1`.`TPPOQCDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`THNTLabel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPMatchCheckRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDPackingD` has succeeded (2 of 2 rows copied)
+- `TESTDB1`.`TPDAuto_MT_Out` has succeeded (147632 of 147632 rows copied)
+- `TESTDB1`.`TUGPOItem` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPEGoodIn` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTOrgPgm` has succeeded (1481 of 1481 rows copied)
+- `TESTDB1`.`TDAMoldRev` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPEQCDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAMajor` has succeeded (71 of 71 rows copied)
+- `TESTDB1`.`TDACust` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TUGDelvPrint_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPVILabelRe` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAItemScale` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvPrintDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTPgmSecu` has succeeded (46 of 46 rows copied)
+- `TESTDB1`.`TPDPackingM` has succeeded (1 of 1 rows copied)
+- `TESTDB1`.`TPPDelvPrint_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDIQC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAMajorTitle` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvPrintReDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDAuto_FT2_In` has succeeded (101 of 101 rows copied)
+- `TESTDB1`.`TUGDelvPrintDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TMIDelvPrintDetail` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TLBLabelConvert` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TRWInboxHis` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`THIPOTHistory` has succeeded (302 of 302 rows copied)
+- `TESTDB1`.`TScrap` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPProcessLabel` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TSADelv` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDIQCDefect` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxMst` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TMIPOItem` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvCheckKey_DHN` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTVendorPassword` has succeeded (1083 of 1083 rows copied)
+- `TESTDB1`.`TDALotHold` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDAWC` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TCTMenuSecu` has succeeded (426 of 426 rows copied)
+- `TESTDB1`.`TUGDelvPrintDetail_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInboxRepackTemp` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPInspectionS` has FAILED (0 of 136 rows copied)
+- `TESTDB1`.`TPDAuto_HIPOT_In` has succeeded (260 of 260 rows copied)
+- `TESTDB1`.`TDAInventory` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TMIDelvPrintDetail_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TICTHistory` has succeeded (66 of 66 rows copied)
+- `TESTDB1`.`TPPProcessLabel_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPDHistory_HIPOT` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TPPDelvWH_log` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`WCRegD` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`TDANumChar` has succeeded (36 of 36 rows copied)
+- `TESTDB1`.`TPPWorkreportWIPDefect_DELHIS` has succeeded (0 of 0 rows copied)
+- `TESTDB1`.`THNTCustItem` has succeeded (0 of 0 rows copied)
+170 tables of 177 were fully copied
+Click [Retry] to retry copying remaining data from tables
+Copy data to target RDBMS finished
+Tasks finished with warnings and/or errors, view the logs for details
+Finished performing tasks.
